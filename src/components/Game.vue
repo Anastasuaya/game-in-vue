@@ -6,11 +6,13 @@
 
 import kaboom from 'kaboom'; 
  
-const k = kaboom({  global: true }); 
+const k = kaboom({ global: true, }); 
  
 // Загрузка спрайтов 
-k.loadSprite('player', ''); 
- 
+k.loadSprite('player', 'https://i.imgur.com/gO7Tqxn.png'); 
+k.loadSprite('background', ''); 
+
+
 // Создание игрового объекта (персонажа) 
 const player = k.add([ 
   k.sprite('player'), 
@@ -38,5 +40,4 @@ k.onKeyDown('down', () => {
 
 
 <style scoped>
-
 </style>
