@@ -1,11 +1,11 @@
 <template>
 
+<Game></Game>
+
 </template>
 
 <script setup lang="ts">
-import kaboom from "kaboom";
-
-kaboom()
+import Game from './components/Game.vue';
 
 
 </script>
