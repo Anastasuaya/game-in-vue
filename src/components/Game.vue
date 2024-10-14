@@ -9,8 +9,7 @@ import kaboom from 'kaboom';
 const k = kaboom({ global: true, }); 
  
 // Загрузка спрайтов 
-k.loadRoot('/')
-k.loadSprite('player', ''); 
+k.loadSprite('player', './sprites/Cat_walk_forward_1.png'); 
 k.loadSprite('background', './map/level_two.png'); 
 
 
@@ -20,6 +19,7 @@ const player = k.add([
   k.pos(100, 100), 
   k.area(), 
   k.body(), 
+  k.scale(2)
 ]); 
  
 // Управление игроком 
@@ -36,6 +36,11 @@ k.onKeyDown('down', () => {
   player.move(0, 100); 
 }); 
  
+ k.add([
+  k.sprite('background'),
+  k.area(),
+  k.body(),
+])
 
 </script> 
 
