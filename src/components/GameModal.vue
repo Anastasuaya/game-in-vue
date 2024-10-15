@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
     <img src="/objects/pink_star.png" alt="">
     <div class="modal-content">
-      <h2 style="color: black;">Добро пожаловать в RPG игру!</h2>
+      <h2 style="color: black;">Welcom to the lux in fine</h2>
       <p style="color: black;">Нажмите "Начать игру" для начала приключения.</p>
       <button @click="startGame">Начать игру</button>
       <button class="close-button" @click="closeModal">Закрыть</button>
@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
