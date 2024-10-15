@@ -53,6 +53,10 @@ k.onKeyDown('down', () => {
   player1.move(0, 100); 
   player1.use(k.sprite('Cat_walk_2'))
 });
+k.onKeyDown("space", () => {
+ player1.jump()
+
+})
 
 
 
