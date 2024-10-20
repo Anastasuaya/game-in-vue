@@ -1,11 +1,11 @@
 <template>
 
 <div>
-    <GameModal
+    <!-- <GameModal
       :isVisible="isModalVisible"
       @update:isVisible="isModalVisible = $event"
       @startGame="handleStartGame"
-    />
+    /> -->
 
     <div ref="gameContainer" v-if="gameStarted" style="position: relative; width: 100%; height: 400px;">
       <!-- Здесь будет контент игры, созданного с использованием Kaboom.js -->
@@ -13,13 +13,13 @@
   </div>
 
 
-<Game></Game>
+<luxInFine></luxInFine>
 
 
 </template>
 
 <script setup lang="ts">
-import Game from './components/Game.vue';
+import luxInFine from './components/Player.vue';
 import { ref, onMounted, onBeforeUnmount, defineComponent } from 'vue';
 import GameModal from './components/GameModal.vue';
 
