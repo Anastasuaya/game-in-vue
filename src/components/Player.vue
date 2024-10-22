@@ -26,7 +26,8 @@ const cat = k.add([
   k.pos(100,100),
   k.scale(2),
   k.body(),
-  k.area()
+  k.area({ shape: new k.Rect(k.vec2(0, 18), 12, 12) }),
+  'cat',
 ])
 
 k.onKeyDown("left", () => {
