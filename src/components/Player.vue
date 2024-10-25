@@ -18,12 +18,13 @@ k.loadSprite('cat', './sprites/cat_sprite.png', {
       idleBack: {from: 12, to: 15, loop: true  },
       idleSideR: {from: 16, to: 19, loop: true  },
       jump: {from: 20, to: 23, loop: false },
+      fall: {from: 20, to: 23, loop: false },
   }
 })
 
 const cat = k.add([
   k.sprite('cat'),
-  k.pos(100,100),
+  k.pos(500,150),
   k.scale(2),
   k.body(),
   k.area(),
@@ -46,6 +47,8 @@ k.onKeyDown("down", () => {
     cat.move(0, 100)
     cat.play('idleForward')
 })
+
+
 </script>
 
 <style scoped>

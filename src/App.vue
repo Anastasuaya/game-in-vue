@@ -1,12 +1,12 @@
 <template>
 <div id="app">
 <Intro 
-v-if="!isGameStarted" 
+v-if="!isGameStarted && !isSettingsOpen && !isHelpOpen"
 @startGame="handleStartGame"
 @opSettings="opSettings"
 @opHelp="opHelp"
 ></Intro>
-<Setting v-if="isSettinsOpen" @close="closeSet"></Setting>
+<Setting v-if="isSettingsOpen" @close="closeSet"></Setting>
 <Help v-if="isHelpOpen" @close="closeHelp"></Help>
 <div v-else>
 <Player></Player>  
@@ -22,9 +22,11 @@ import Player from './components/Player.vue';
 import Setting from './components/Setting.vue';
 import Help from './components/Help.vue';
 
+
+
 //Начало игры
 const isGameStarted = ref(false)
-const isSettinsOpen = ref(false)
+const isSettingsOpen = ref(false)
 const isHelpOpen = ref(false)
 
 //Обработка кнопок
@@ -35,11 +37,11 @@ const handleStartGame = () => {
 
 //Открытие настроек
 const opSettings = () => {
-    isSettinsOpen.value = true
+    isSettingsOpen.value = true
 }
 //Закрытие настроек
 const closeSet = () => {
-    isSettinsOpen.value = false
+    isSettingsOpen.value = false
 }
 //Открытие помощи
 const opHelp = () => {
@@ -58,4 +60,6 @@ const closeHelp = () => {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+
 </style>
