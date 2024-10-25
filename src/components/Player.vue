@@ -24,7 +24,7 @@ k.loadSprite('cat', './sprites/cat_sprite.png', {
 const cat = k.add([
   k.sprite('cat'),
   k.pos(100,100),
-  k.scale(32),
+  k.scale(2),
   k.body(),
   k.area(),
   'cat',
