@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import kaboom from 'kaboom';
 
+const props = defineProps(['isGameStarted'])
 
 const k = kaboom({background: [0,0,0]})
 
@@ -12,47 +13,87 @@ const k = kaboom({background: [0,0,0]})
 //Персонажи
 k.loadSprite('cat', '/sprites/cat_sprite.png', {
   sliceX: 4,
-  sliceY: 6,
+  sliceY: 9,
   anims: {
       idle: {from: 0, to: 3, loop: false },
       Forward: {from: 4, to: 7, loop: true  },
       SideL: {from: 8, to: 11, loop: true  },
       Back: {from: 12, to: 15, loop: true  },
       SideR: {from: 16, to: 19, loop: true  },
-      jump: {from: 20, to: 23, loop: false },
-      fall: {from: 0, to: 0, loop: false },
+      idleBack: { from: 24, to: 27, loop: false},
+      idleR: {from: 28, to: 31, loop: false },
+      idleL: {from: 32, to: 35, loop: false }
   }
 })
 
+//НПС
+k.loadSprite('fox', '/sprites/Fox.png', {
+    sliceX: 14,
+    sliceY: 7,
+    anims: {
+        idle: {from: 0, to: 4, loop: false},
+        look: {from: 5, to: 18, loop: true},
+        run: { from: 19 , to: 26 , loop: true},
+    }
+})
+
+k.loadSprite('bat','/sprites/Bat.png', {
+    sliceX: 5,
+    sliceY: 3,
+    anims: {
+        walk: {from: 5, to: 9, loop: true }
+    }
+})
+
+k.loadSprite('cobra', '/sprites/Cobra.png', {
+    sliceX: 8,
+    sliceY: 5,
+    anims: {
+        idle: {from: 0, to: 7, loop: true }
+    }
+})
+
 //Уровни
-k.loadSprite('floor', '/map/level_one_floor.png')
-k.loadSprite('wall', '/map/level_one_wall.png')
-k.loadSprite('ladder', '/map/level_one_ladder.png')
+// k.loadSprite('floor', '/map/level_one_floor.png')
+// k.loadSprite('wall', '/map/level_one_wall.png')
+// k.loadSprite('ladder', '/map/level_one_ladder.png')
 
-k.add([
-    k.sprite('floor'),
-    k.pos(400,30),
-    k.scale(0.9),
-    k.area(), 
-])
 
-k.add([
-    k.sprite('wall'),
-    k.pos(400,30),  
-    k.scale(0.9),
+//FOX
+const fox = k.add([
+    k.sprite('fox'),
+    k.pos(550,100),
+    k.scale(2.5),
+    k.body(),
     k.area(),
-    'wall'
+    'fox'
 ])
+fox.play('look')
 
-k.add([
-    k.sprite('ladder'),
-    k.pos(400,30),
-    k.scale(0.9),
+//BAT
+const bat = k.add([
+k.sprite('bat'),
+    k.pos(550,100),
+    k.scale(2.5),
+    k.body(),
     k.area(),
-    'ladder'
+    'bat'
 ])
+bat.play('walk')
+
+//COBRA
+const cobra = k.add([
+k.sprite('cobra'),
+    k.pos(550,100),
+    k.scale(2.5),
+    k.body(),
+    k.area(),
+    'cobra'
+])
+cobra.play('idle')
 
 
+//Главный герой
 const cat = k.add([
   k.sprite('cat'),
   k.pos(550,100),
@@ -61,39 +102,107 @@ const cat = k.add([
   k.area(),
   'cat',
 ])
- 
+
+cat.play('idle')
+
+let left = false
+let right = false
+let up = false
+let down = false
 
 k.onKeyDown("left", () => {
-    cat.move(-100, 0)
-    cat.play('SideL')
+    if (props.isGameStarted) {
+        cat.move(-100, 0)
+        if (!left) {
+            cat.play('SideL')
+        }
+        left = true
+    }
 })
-k.onKeyDown("up", () => {
-    cat.move(0, -100)
-    cat.play('Back')
-})
-k.onKeyDown("right", () => {
-    cat.move(100, 0)
-    cat.play('SideR')
-})
-k.onKeyDown("down", () => {
-    cat.move(0, 100)
-    cat.play('Forward')
+k.onKeyRelease('left', ()=>{
+    left = false
+    cat.play('idleL')
 })
 
-cat.onCollide("wall", () => {
+k.onKeyDown("up", () => {
+    if (props.isGameStarted) {
+        cat.move(0, -100)
+        if (!up) {
+            cat.play('Back')
+        }
+        up = true
+    }
 })
+k.onKeyRelease('up', ()=>{
+    up = false
+    cat.play('idleBack')
+})
+
+k.onKeyDown("right", () => {
+    if (props.isGameStarted) {
+        cat.move(100, 0)
+        if (!right) {
+            cat.play('SideR')
+        }
+        right = true
+    }
+})
+k.onKeyRelease('right', ()=>{
+    right = false
+    cat.play('idleR')
+})
+
+k.onKeyDown("down", () => {
+    if (props.isGameStarted) {
+        cat.move(0, 100)
+        if (!down) {
+            cat.play('Forward')
+        }
+        down = true
+    }
+})
+k.onKeyRelease('down', ()=>{
+    down = false
+    cat.play('idle')
+})
+
+
+
+
+//Уровни
+
+// k.addLevel([
+//     "          ",
+//     "          ",
+//     "          ",
+//     "          ",
+//     "          ",
+//     "          ",
+//     "          ",
+//        "    ",
+//        "    ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// "                 ",
+// ], {
+
+// })
+
+// cat.onCollide("wall", (e) => {
+//     console.log('wall', e)
+// })
 
 
 </script>
 
 <style scoped>
-/* Убедитесь, что стиль div не влияет на размер канваса или компонентов */
-div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Если нужно, чтобы события мыши не производили действие на этот div */
-}
+
 </style>
