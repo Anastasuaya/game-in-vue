@@ -54,9 +54,11 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
 })
 
 //Уровни
-// k.loadSprite('floor', '/map/level_one_floor.png')
-// k.loadSprite('wall', '/map/level_one_wall.png')
-// k.loadSprite('ladder', '/map/level_one_ladder.png')
+// k.loadSpriteAtlas('/map/base_tileset.png', {
+//     'floor': {
+        
+//     }
+// })
 
 
 //FOX
