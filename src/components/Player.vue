@@ -10,6 +10,189 @@ const props = defineProps(['isGameStarted'])
 const k = kaboom({background: [0,0,0]})
 
 //Загрузка спрайтов
+
+//Уровни
+k.loadSpriteAtlas('/map/base_tileset.png', {
+    'ladder': {
+       'x': 290,
+       'y': 3,
+       'width': 96,
+       'height': 96, 
+    //    sliceX: 12,
+    //    sliceY: 9
+    },
+    'floor': {
+       'x': 9,
+       'y': 3,
+       'width': 288,
+       'height': 96, 
+       sliceX: 9,
+       sliceY: 3,
+       
+    },
+    'wall-top': {
+       'x': 60,
+       'y': 194,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-topLeft': {
+        'x': 95,
+       'y': 194,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-topRight': {
+        'x': 5,
+       'y': 194,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-Left': {
+        'x': 5,
+       'y': 200,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-Right': {
+        'x': 100,
+       'y': 209,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-Bottom': {
+        'x': 25,
+       'y': 290,
+       'width': 64,
+       'height': 32, 
+    },
+    'wall-BotR': {
+        'x': 100,
+       'y': 285,
+       'width': 32,
+       'height': 32, 
+    },
+    'wall-BotL': {
+        'x': 1,
+       'y': 290,
+       'width': 32,
+       'height': 32, 
+    },
+
+})
+
+
+k.addLevel([
+"            ",
+"            ",
+"            ",
+"            ",
+"            ",
+"            ",
+"            ",
+"      ",
+"      ",
+"      ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+"                   ",
+], {
+    tileHeight: 32,
+    tileWidth: 32,
+    tiles: {
+        " ": () => [
+            k.sprite('floor', {frame: ~~k.rand(18)}),
+            k.pos(600,100),
+            // k.scale(1.5)
+        ]
+    }
+})
+
+ k.addLevel ([
+"            ",
+"ctttttttttttd",
+"l           r",
+"l           r",
+"l           r",
+"l           r",
+"l           r",
+"l           r",
+"l           r",
+"l     rwwwwwwb",
+"l     r",
+"l     tttttttttttttd",
+"l                  r",
+"l                  r",
+"l                  r",
+"l                  r",
+"l            g     r",
+"l                  r",
+"l                  r",
+"l                  r",
+"l                  r",
+" awwwwwwwwwwwwwwwwwwb",
+
+], {
+    tileHeight: 32,
+    tileWidth: 32,
+    tiles: {
+        't': () => [
+            k.sprite('wall-top'),
+            k.pos(600,40),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'd': () => [
+            k.sprite('wall-topLeft'),
+            k.pos(600,40),
+        ],
+        'c': () => [
+            k.sprite('wall-topRight'),
+            k.pos(600,40),
+        ],
+        'l': () => [
+            k.sprite('wall-Left'),
+            k.pos(600,40),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'r': () => [
+            k.sprite('wall-Right'),
+            k.pos(600,40),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'w': () => [
+            k.sprite('wall-Bottom'),
+            k.pos(568,36),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'b': () => [
+            k.sprite('wall-BotR'),
+            k.pos(570,36),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'a': () => [
+            k.sprite('wall-BotL'),
+            k.pos(568,36),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'g': () => [
+            k.sprite('ladder'),
+            k.pos(650, 30)
+        ]
+    }
+})
+
 //Персонажи
 k.loadSprite('cat', '/sprites/cat_sprite.png', {
   sliceX: 4,
@@ -22,7 +205,8 @@ k.loadSprite('cat', '/sprites/cat_sprite.png', {
       SideR: {from: 16, to: 19, loop: true  },
       idleBack: { from: 24, to: 27, loop: false},
       idleR: {from: 28, to: 31, loop: false },
-      idleL: {from: 32, to: 35, loop: false }
+      idleL: {from: 32, to: 35, loop: false },
+
   }
 })
 
@@ -53,58 +237,51 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
     }
 })
 
-//Уровни
-// k.loadSpriteAtlas('/map/base_tileset.png', {
-//     'floor': {
-        
-//     }
-// })
 
 
 //FOX
-const fox = k.add([
-    k.sprite('fox'),
-    k.pos(550,100),
-    k.scale(2.5),
-    k.body(),
-    k.area(),
-    'fox'
-])
-fox.play('look')
+// const fox = k.add([
+//     k.sprite('fox'),
+//     k.pos(550,100),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'fox'
+// ])
+// fox.play('look')
 
 //BAT
-const bat = k.add([
-k.sprite('bat'),
-    k.pos(550,100),
-    k.scale(2.5),
-    k.body(),
-    k.area(),
-    'bat'
-])
-bat.play('walk')
+// const bat = k.add([
+// k.sprite('bat'),
+//     k.pos(550,100),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'bat'
+// ])
+// bat.play('walk')
 
 //COBRA
-const cobra = k.add([
-k.sprite('cobra'),
-    k.pos(550,100),
-    k.scale(2.5),
-    k.body(),
-    k.area(),
-    'cobra'
-])
-cobra.play('idle')
+// const cobra = k.add([
+// k.sprite('cobra'),
+//     k.pos(550,100),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'cobra'
+// ])
+// cobra.play('idle')
 
 
 //Главный герой
 const cat = k.add([
   k.sprite('cat'),
-  k.pos(550,100),
+  k.pos(700,160),
   k.scale(2),
   k.body(),
   k.area(),
   'cat',
 ])
-
 cat.play('idle')
 
 let left = false
@@ -171,32 +348,7 @@ k.onKeyRelease('down', ()=>{
 
 
 
-//Уровни
 
-// k.addLevel([
-//     "          ",
-//     "          ",
-//     "          ",
-//     "          ",
-//     "          ",
-//     "          ",
-//     "          ",
-//        "    ",
-//        "    ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// "                 ",
-// ], {
-
-// })
 
 // cat.onCollide("wall", (e) => {
 //     console.log('wall', e)
