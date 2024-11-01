@@ -55,7 +55,7 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
        'height': 32, 
     },
     'wall-Right': {
-        'x': 100,
+        'x': 96,
        'y': 209,
        'width': 32,
        'height': 32, 
@@ -68,7 +68,7 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
     },
     'wall-BotR': {
         'x': 100,
-       'y': 285,
+       'y': 290,
        'width': 32,
        'height': 32, 
     },
@@ -124,7 +124,7 @@ k.addLevel([
 "l           r",
 "l           r",
 "l           r",
-"l     rwwwwwwb",
+"lppppprwwwwwwb",
 "l     r",
 "l     tttttttttttttd",
 "l                  r",
@@ -209,6 +209,7 @@ k.loadSprite('cat', '/sprites/cat_sprite.png', {
 
   }
 })
+
 
 //НПС
 k.loadSprite('fox', '/sprites/Fox.png', {
