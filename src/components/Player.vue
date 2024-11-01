@@ -109,6 +109,7 @@ k.addLevel([
         " ": () => [
             k.sprite('floor', {frame: ~~k.rand(18)}),
             k.pos(600,100),
+            // k.area(),
             // k.scale(1.5)
         ]
     }
@@ -203,6 +204,7 @@ k.loadSprite('cat', '/sprites/cat_sprite.png', {
       SideL: {from: 8, to: 11, loop: true  },
       Back: {from: 12, to: 15, loop: true  },
       SideR: {from: 16, to: 19, loop: true  },
+    //   fall: {from: 20, to: 23, loop: false},
       idleBack: { from: 24, to: 27, loop: false},
       idleR: {from: 28, to: 31, loop: false },
       idleL: {from: 32, to: 35, loop: false },
@@ -277,7 +279,7 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
 //Главный герой
 const cat = k.add([
   k.sprite('cat'),
-  k.pos(700,160),
+  k.pos(700,100),
   k.scale(2),
   k.body(),
   k.area(),
@@ -346,18 +348,32 @@ k.onKeyRelease('down', ()=>{
     cat.play('idle')
 })
 
-
-
-
-
-
-// cat.onCollide("wall", (e) => {
-//     console.log('wall', e)
+// k.onUpdate("cat", () => {
+//     cat.move(0, 100)
+//     if (cat.pos.x < 50) {
+//     } 
 // })
+
+
+
 
 
 </script>
 
 <style scoped>
 
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(200px); /* Падает вниз */
+  }
+  100% {
+    transform: translateY(0); /* Возвращается на место */
+  }
+}
+.cat {
+  animation: fall 0.5s ease-in-out forwards; /* Применение анимации */
+}
 </style>

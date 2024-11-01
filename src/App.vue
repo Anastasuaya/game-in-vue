@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<Intro 
+<Intro
 v-if="!isGameStarted && !isSettingsOpen && !isHelpOpen"
 @startGame="handleStartGame"
 @opSettings="opSettings"
@@ -64,5 +64,6 @@ const closeHelp = () => {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 
 </style>
