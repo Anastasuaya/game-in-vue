@@ -10,7 +10,14 @@ const props = defineProps(['isGameStarted'])
 const k = kaboom({background: [0,0,0]})
 
 //Загрузка спрайтов
-
+//Объекты для взаимодействия
+k.loadSpriteAtlas('/objects/Objects_blood.png', {
+    'kid': {
+        'x': 1,
+        'y': 2,
+        'width':
+    },
+})
 //Уровни
 k.loadSpriteAtlas('/map/base_tileset.png', {
     'ladder': {
@@ -118,7 +125,7 @@ k.addLevel([
  k.addLevel ([
 "            ",
 "ctttttttttttd",
-"l           r",
+"le          r",
 "l           r",
 "l           r",
 "l           r",
@@ -190,6 +197,9 @@ k.addLevel([
         'g': () => [
             k.sprite('ladder'),
             k.pos(650, 30)
+        ],
+        'e': () => [
+        k.sprite('kid')
         ]
     }
 })
