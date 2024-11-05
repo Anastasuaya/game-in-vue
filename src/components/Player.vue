@@ -14,8 +14,18 @@ const k = kaboom({background: [0,0,0]})
 k.loadSpriteAtlas('/objects/Objects_blood.png', {
     'kid': {
         'x': 1,
-        'y': 2,
-        'width':
+        'y': 1,
+        'width': 25,
+        'height': 55,
+        // sliceX: 1,
+        // sliceY: 1
+    },
+    'skull': {
+        'x': 5,
+        'y': 85,
+        'width': 26,
+        'height': 25,
+
     },
 })
 //Уровни
@@ -122,87 +132,155 @@ k.addLevel([
     }
 })
 
- k.addLevel ([
+const map = [
+    [
 "            ",
 "ctttttttttttd",
 "le          r",
 "l           r",
 "l           r",
 "l           r",
-"l           r",
+"l         j r",
 "l           r",
 "l           r",
 "lppppprwwwwwwb",
 "l     r",
 "l     tttttttttttttd",
 "l                  r",
-"l                  r",
+"l            j     r",
 "l                  r",
 "l                  r",
 "l            g     r",
 "l                  r",
+"l          j       r",
 "l                  r",
-"l                  r",
-"l                  r",
-" awwwwwwwwwwwwwwwwwwb",
+"l j                r",
+" awwwwwwwwwwwwwwwwwwb",  
+    ],
+    
+   [
 
-], {
-    tileHeight: 32,
-    tileWidth: 32,
-    tiles: {
-        't': () => [
-            k.sprite('wall-top'),
-            k.pos(600,40),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'd': () => [
-            k.sprite('wall-topLeft'),
-            k.pos(600,40),
-        ],
-        'c': () => [
-            k.sprite('wall-topRight'),
-            k.pos(600,40),
-        ],
-        'l': () => [
-            k.sprite('wall-Left'),
-            k.pos(600,40),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'r': () => [
-            k.sprite('wall-Right'),
-            k.pos(600,40),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'w': () => [
-            k.sprite('wall-Bottom'),
-            k.pos(568,36),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'b': () => [
-            k.sprite('wall-BotR'),
-            k.pos(570,36),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'a': () => [
-            k.sprite('wall-BotL'),
-            k.pos(568,36),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'g': () => [
-            k.sprite('ladder'),
-            k.pos(650, 30)
-        ],
-        'e': () => [
-        k.sprite('kid')
-        ]
-    }
-})
+
+"                        ",
+"cttttttttttttttttttttttd",
+"l                       ",
+"l                       ",
+"l               r",
+"l               r",
+"l               r",
+"l               r",
+"l               r",
+"l     rwwwwwwwwwb",
+"l     r",
+"l     ttttttd",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+"l            r",
+" awwwwwwwwwwwb", 
+// "                                           ",
+//  "ctttttttttttttttttttttttttttttttttttttttttd",
+//  "l                                         r",                    "ctttttttttttttttttttttttttttttd",
+//  "l                                         r",                    "l                             r",
+//  "l                                         r",                    "l                             r",
+//  "l                                         r",                    "l                             r",
+//  "l                                         r",                    "l                             r",
+//  "l                                         r",                    "l                             r",
+//  "l                         r","ww","l      r",                    "l               r","wwwwwwwwwww",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r",                    "l               r",
+//  "l                         r",     "l      r","ttttttttttttttttt","l               r",
+//  "l                         r",     "l                                              r",
+//  "l                         r",     "l                                              r",
+//  "l                         r",     "l                                              r",
+//  "l                         r",     "l                                              r",
+//  "awwwwwwwwwwwwwwwwwwwwwwwwwb",     "awwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwb",
+
+    ],
+//     {
+    
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         't': () => [
+//             k.sprite('wall-top'),
+//             k.pos(600,40),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'd': () => [
+//             k.sprite('wall-topLeft'),
+//             k.pos(600,40),
+//         ],
+//         'c': () => [
+//             k.sprite('wall-topRight'),
+//             k.pos(600,40),
+//         ],
+//         'l': () => [
+//             k.sprite('wall-Left'),
+//             k.pos(600,40),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'r': () => [
+//             k.sprite('wall-Right'),
+//             k.pos(600,40),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'w': () => [
+//             k.sprite('wall-Bottom'),
+//             k.pos(568,36),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'b': () => [
+//             k.sprite('wall-BotR'),
+//             k.pos(570,36),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'a': () => [
+//             k.sprite('wall-BotL'),
+//             k.pos(568,36),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'g': () => [
+//             k.sprite('ladder'),
+//             k.pos(650, 30)
+//         ],
+//         'e': () => [
+//         k.sprite('kid'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true}),
+//         ],
+//         'j': () => [
+//         k.sprite('skull'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true})
+//         ],
+//     }
+// }
+// ) 
+]
+
+
+
+
 
 //Персонажи
 k.loadSprite('cat', '/sprites/cat_sprite.png', {
@@ -358,32 +436,9 @@ k.onKeyRelease('down', ()=>{
     cat.play('idle')
 })
 
-// k.onUpdate("cat", () => {
-//     cat.move(0, 100)
-//     if (cat.pos.x < 50) {
-//     } 
-// })
-
-
-
 
 
 </script>
 
 <style scoped>
-
-@keyframes fall {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(200px); /* Падает вниз */
-  }
-  100% {
-    transform: translateY(0); /* Возвращается на место */
-  }
-}
-.cat {
-  animation: fall 0.5s ease-in-out forwards; /* Применение анимации */
-}
 </style>
