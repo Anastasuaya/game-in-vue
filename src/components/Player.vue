@@ -38,6 +38,14 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
     //    sliceX: 12,
     //    sliceY: 9
     },
+    'ladder_lvlTwo': {
+       'x': 290,
+       'y': 95,
+       'width': 96,
+       'height': 96, 
+    //    sliceX: 12,
+    //    sliceY: 9
+    },
     'floor': {
        'x': 9,
        'y': 3,
@@ -46,6 +54,14 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
        sliceX: 9,
        sliceY: 3,
        
+    },
+    'floor_stone': {
+        'x': 25,
+        'y': 135,
+        'width': 200,
+       'height': 200, 
+       sliceX: 4,
+       sliceY: 6,
     },
     'wall-top': {
        'x': 60,
@@ -98,116 +114,123 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
 
 })
 
-
-k.addLevel([
-"            ",
-"            ",
-"            ",
-"            ",
-"            ",
-"            ",
-"            ",
-"      ",
-"      ",
-"      ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-"                   ",
-], {
-    tileHeight: 32,
-    tileWidth: 32,
-    tiles: {
-        " ": () => [
-            k.sprite('floor', {frame: ~~k.rand(18)}),
-            k.pos(600,100),
-            // k.area(),
-            // k.scale(1.5)
-        ]
-    }
-})
-
-const map = [
-    [
-"            ",
-"ctttttttttttd",
-"le          r",
-"l           r",
-"l           r",
-"l           r",
-"l         j r",
-"l           r",
-"l           r",
-"lppppprwwwwwwb",
-"l     r",
-"l     tttttttttttttd",
-"l                  r",
-"l            j     r",
-"l                  r",
-"l                  r",
-"l            g     r",
-"l                  r",
-"l          j       r",
-"l                  r",
-"l j                r",
-" awwwwwwwwwwwwwwwwwwb",  
-    ],
-    
-   [
+//LVL 1
+// k.scene("Principal", ({levelId} = {levelId: 0}) => {
 
 
-"                        ",
-"cttttttttttttttttttttttd",
-"l                       ",
-"l                       ",
-"l               r",
-"l               r",
-"l               r",
-"l               r",
-"l               r",
-"l     rwwwwwwwwwb",
-"l     r",
-"l     ttttttd",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-"l            r",
-" awwwwwwwwwwwb", 
-// "                                           ",
-//  "ctttttttttttttttttttttttttttttttttttttttttd",
-//  "l                                         r",                    "ctttttttttttttttttttttttttttttd",
-//  "l                                         r",                    "l                             r",
-//  "l                                         r",                    "l                             r",
-//  "l                                         r",                    "l                             r",
-//  "l                                         r",                    "l                             r",
-//  "l                                         r",                    "l                             r",
-//  "l                         r","ww","l      r",                    "l               r","wwwwwwwwwww",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r",                    "l               r",
-//  "l                         r",     "l      r","ttttttttttttttttt","l               r",
-//  "l                         r",     "l                                              r",
-//  "l                         r",     "l                                              r",
-//  "l                         r",     "l                                              r",
-//  "l                         r",     "l                                              r",
-//  "awwwwwwwwwwwwwwwwwwwwwwwwwb",     "awwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwb",
+//     const levels = [
 
-    ],
+// [
+// "            ",
+// "ctttttttttttd",
+// "le          r",
+// "l           r",
+// "l           r",
+// "l           r",
+// "l         j r",
+// "l           r",
+// "l           r",
+// "lppppprwwwwwwb",
+// "l     r",
+// "l     tttttttttttttd",
+// "l                  r",
+// "l            j     r",
+// "l                  r",
+// "l                  r",
+// "l            g     r",
+// "l                  r",
+// "l          j       r",
+// "l                  r",
+// "l j                r",
+// " awwwwwwwwwwwwwwwwwwb",  
+// ],
+
+// [
+            
+// "                         ",
+// "cttttttttttttttttttttttttd",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       atttttd",
+// "l            cttttd          r",
+// "l            r   l           r",
+// "l            r   l           r",
+// "l            r   l     g     r",
+// "l            r   l           r",
+// "l            r   l           r",
+// "l            r   l       rwwwb",
+// "l            r   l       r",
+// "l            r   l       r",
+// "awwwwwwwwwwwwb   awwwwwwwb",
+// ],
+
+//     ]
+// }
+
+ 
+// k.addLevel([
+// "            ",
+// "            ",
+// "            ",
+// "            ",
+// "            ",
+// "            ",
+// "            ",
+// "      ",
+// "      ",
+// "      ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// "                   ",
+// ], {
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         " ": () => [
+//             k.sprite('floor', {frame: ~~k.rand(18)}),
+//             k.pos(600,100),
+//             // k.area(),
+//             // k.scale(1.5)
+//         ]
+//     }
+// })
+
+// const lvlOne = k.addLevel(
+//     [
+// "            ",
+// "ctttttttttttd",
+// "le          r",
+// "l           r",
+// "l           r",
+// "l           r",
+// "l         j r",
+// "l           r",
+// "l           r",
+// "lppppprwwwwwwb",
+// "l     r",
+// "l     tttttttttttttd",
+// "l                  r",
+// "l            j     r",
+// "l                  r",
+// "l                  r",
+// "l            g     r",
+// "l                  r",
+// "l          j       r",
+// "l                  r",
+// "l j                r",
+// " awwwwwwwwwwwwwwwwwwb",  
+//     ],
+
 //     {
-    
 //     tileHeight: 32,
 //     tileWidth: 32,
 //     tiles: {
@@ -275,11 +298,401 @@ const map = [
 //         ],
 //     }
 // }
-// ) 
-]
+// )
+
+// k.addLevel([
+// "_________________________",
+// "|                       |",
+// "|                       |",
+// "|                       |",
+// "|                       |",
+// "|                       |",
+// "|                       |",
+// "|            |___|            ",
+// "|            |___|            ",
+// "|            |___|            ",
+// "|            |___|            ",
+// "|            |___|            ",
+// "|            |___|            ",
+// "|            |___|       ",
+// "|            |___|       ",
+// "|            |___|       ",
+
+// ], {
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         " ": () => [
+//             k.sprite('floor_stone', {frame: ~~k.rand(4)}),
+
+//             k.pos(600,100),
+//             // k.area(),
+//             // k.scale(1.5)
+//         ]
+//     }
+// })
 
 
+// const lvlTwo = k.addLevel(
+//     [
+            
+// "                         ",
+// "cttttttttttttttttttttttttd",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       r",
+// "l                       atttttd",
+// "l            cttttd          r",
+// "l            r   l           r",
+// "l            r   l           r",
+// "l            r   l     g     r",
+// "l            r   l           r",
+// "l            r   l           r",
+// "l            r   l       rwwwb",
+// "l            r   l       r",
+// "l            r   l       r",
+// "awwwwwwwwwwwwb   awwwwwwwb",
+//     ],
+//  {
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         't': () => [
+//             k.sprite('wall-top'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'd': () => [
+//             k.sprite('wall-topLeft'),
+//             k.pos(585,70),
+//         ],
+//         'c': () => [
+//             k.sprite('wall-topRight'),
+//             k.pos(605,70),
+//         ],
+//         'l': () => [
+//             k.sprite('wall-Left'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'r': () => [
+//             k.sprite('wall-Right'),
+//             k.pos(615,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'w': () => [
+//             k.sprite('wall-Bottom'),
+//             k.pos(600,69),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'b': () => [
+//             k.sprite('wall-BotR'),
+//             k.pos(620,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'a': () => [
+//             k.sprite('wall-BotL'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'g': () => [
+//             k.sprite('ladder_lvlTwo'),
+//             k.pos(650, 30)
+//         ],
+//         'e': () => [
+//         k.sprite('kid'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true}),
+//         ],
+//         'j': () => [
+//         k.sprite('skull'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true})
+//         ],
+//     }
+//  }
+//  )
 
+// k.addLevel([
+// "|                  |____|         ",
+// "|                  |____|         ",
+// "|                                 ",
+// "|                                 ",
+// "|                                 ",
+// "|                  |____|         ",
+// "|                  |____|         ",
+// "|                  |____|         ",
+// "|                  |____|         ",
+// "|______|    |___________|         ",
+// "|______|    |___________|         ",
+// "|______|    |___________|         ",
+// "|______|    |___________|         ",
+// "|______|    |_____________________",
+// "|______|    |_____________________|",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// "|___|           ",
+// ], {
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         " ": () => [
+//             k.sprite('floor_stone', {frame: ~~k.rand(4)}),
+
+//             k.pos(600,100),
+//             // k.area(),
+//             // k.scale(1.5)
+//         ]
+//     }
+// })
+
+// const lvlTwo = k.addLevel(
+//     [
+// "ctttttttttttttttttttd___cttttttttttd",            
+// "l                  r____l         r",
+// "l                  rttttl         r",
+// "l                                 r",
+// "l                                 r",
+// "l                                 r",
+// "l                  rwwwwl         r",
+// "l                  r____l         r",
+// "l                  r____l         r",
+// "l                  r____l         r",
+// "awwwwwww    wwwwwwwb____l         r",
+// "|______l    r___________l         r",
+// "|______l    r___________l         r",
+// "|______l    r___________l         r",
+// "|______l    r___________awwwwwwwwwb",
+// "|___cttl    rttttd________________|",
+// "|___l           r",
+// "|___l           r",
+// "|___l           r",
+// "|___l           r",
+// "|___l           r",
+// "|___l           r",
+// "|___l      g    r",
+// "|___l           r",
+// "|___l           r",
+// "|___awwwwwwwwwwwb",
+//     ],
+//  {
+//     tileHeight: 32,
+//     tileWidth: 32,
+//     tiles: {
+//         't': () => [
+//             k.sprite('wall-top'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'd': () => [
+//             k.sprite('wall-topLeft'),
+//             k.pos(585,70),
+//         ],
+//         'c': () => [
+//             k.sprite('wall-topRight'),
+//             k.pos(605,70),
+//         ],
+//         'l': () => [
+//             k.sprite('wall-Left'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'r': () => [
+//             k.sprite('wall-Right'),
+//             k.pos(615,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'w': () => [
+//             k.sprite('wall-Bottom'),
+//             k.pos(600,69),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'b': () => [
+//             k.sprite('wall-BotR'),
+//             k.pos(620,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'a': () => [
+//             k.sprite('wall-BotL'),
+//             k.pos(605,70),
+//             k.area(),
+//             k.body({isStatic:true})
+//         ],
+//         'g': () => [
+//             k.sprite('ladder_lvlTwo'),
+//             k.pos(650, 30)
+//         ],
+//         'e': () => [
+//         k.sprite('kid'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true}),
+//         ],
+//         'j': () => [
+//         k.sprite('skull'),
+//         k.pos(620,30),
+//         k.scale(1.2),
+//         k.area(),
+//         k.body({isStatic:true})
+//         ],
+//     }
+//  }
+//  )
+
+k.addLevel([
+"    __    ",
+"   ____   ",
+"   ____   ",
+"          |____|         ",
+"          |______|       ",
+"          |______|       |__|       ",
+"          |____|         |__|       ",
+"          |____|         |__|       ",
+"                         |__|       ",
+"                         |__|       ",
+"                         |____|   ",
+"__        |____|       |______|   ",
+"__        |____|       |______|   ",
+"__        |____|       |______|   ",
+"          |____|         |____|   ",
+"          |____|         |____|   ",
+"    __    |____|                  ",
+"   ||||   |____|                  ",
+"   |__|   |____|                  ",
+
+], {
+    tileHeight: 32,
+    tileWidth: 32,
+    tiles: {
+        " ": () => [
+            k.sprite('floor_stone', {frame: ~~k.rand(4)}),
+
+            k.pos(100,100),
+            // k.area(),
+            // k.scale(1.5)
+        ]
+    }
+})
+
+
+const lvlTwo = k.addLevel(
+    [
+"cttttd     ",
+"   __rl_   ",
+"  __wba_   ",
+"   r__l    ",
+"  __rww_   ",
+"          |____|         ",
+"          |______|       ",
+"          |______|       |__|       ",
+"          |____|         |__|       ",
+"          |____|         |__|       ",
+"                         |__|       ",
+"                         |__|       ",
+"                         |____|   ",
+"__        |____|       |______|   ",
+"__        |____|       |______|   ",
+"__        |____|       |______|   ",
+"          |____|         |____|   ",
+"          |____|         |____|   ",
+"    __    |____|                  ",
+"   ||||   |____|                  ",
+"   |__|   |____|                  ",
+
+    ],
+ {
+    tileHeight: 32,
+    tileWidth: 32,
+    tiles: {
+        't': () => [
+            k.sprite('wall-top'),
+            k.pos(70,70),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'd': () => [
+            k.sprite('wall-topLeft'),
+            k.pos(70,70),
+        ],
+        'c': () => [
+            k.sprite('wall-topRight'),
+            k.pos(70,70),
+        ],
+        'l': () => [
+            k.sprite('wall-Left'),
+            k.pos(100,70),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'r': () => [
+            k.sprite('wall-Right'),
+            k.pos(70,70),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'w': () => [
+            k.sprite('wall-Bottom'),
+            k.pos(70,69),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'b': () => [
+            k.sprite('wall-BotR'),
+            k.pos(73,70),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'a': () => [
+            k.sprite('wall-BotL'),
+            k.pos(100,70),
+            k.area(),
+            k.body({isStatic:true})
+        ],
+        'g': () => [
+            k.sprite('ladder_lvlTwo'),
+            k.pos(60, 80)
+        ],
+        'e': () => [
+        k.sprite('kid'),
+        k.pos(620,30),
+        k.scale(1.2),
+        k.area(),
+        k.body({isStatic:true}),
+        ],
+        'j': () => [
+        k.sprite('skull'),
+        k.pos(620,30),
+        k.scale(1.2),
+        k.area(),
+        k.body({isStatic:true})
+        ],
+    }
+ }
+ )
 
 
 //Персонажи
@@ -367,7 +780,7 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
 //Главный герой
 const cat = k.add([
   k.sprite('cat'),
-  k.pos(700,100),
+  k.pos(700,300),
   k.scale(2),
   k.body(),
   k.area(),
