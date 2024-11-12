@@ -431,7 +431,7 @@ k.onUpdate('cat', () => {
 
 k.onKeyDown("left", () => {
     if (props.isGameStarted) {
-        cat.move(-100, 0)
+        cat.move(-140, 0)
         if (!left) {
             cat.play('SideL')
         }
@@ -445,7 +445,7 @@ k.onKeyRelease('left', ()=>{
 
 k.onKeyDown("up", () => {
     if (props.isGameStarted) {
-        cat.move(0, -100)
+        cat.move(0, -140)
         if (!up) {
             cat.play('Back')
         }
@@ -459,7 +459,7 @@ k.onKeyRelease('up', ()=>{
 
 k.onKeyDown("right", () => {
     if (props.isGameStarted) {
-        cat.move(100, 0)
+        cat.move(140, 0)
         if (!right) {
             cat.play('SideR')
         }
@@ -473,7 +473,7 @@ k.onKeyRelease('right', ()=>{
 
 k.onKeyDown("down", () => {
     if (props.isGameStarted) {
-        cat.move(0, 100)
+        cat.move(0, 140)
         if (!down) {
             cat.play('Forward')
         }
@@ -492,7 +492,7 @@ k.onKeyRelease('down', ()=>{
 cat.onCollide('ladder_lvlTwo', ()=> {
     if (props.isGameStarted) {
         levelIndex = 1
-        k.go("game", { levelIndex: levelIndex })
+        k.go("game", { levelIndex: levelIndex },)
     }
  })
 
