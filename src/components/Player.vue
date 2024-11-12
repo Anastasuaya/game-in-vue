@@ -205,7 +205,7 @@ const levels = [
 "l            cttttd          r",
 "l            r___l           r",
 "l            r___l           r",
-"l            r___l     g     r",
+"l            r___l     h     r",
 "l            r___l           r",
 "l            r___l           r",
 "l            r___l       rwwwb",
@@ -236,7 +236,7 @@ const levels = [
 "|___l           r",
 "|___l           r",
 "|___l           r",
-"|___l      g    r",
+"|___l      j    r",
 "|___l           r",
 "|___l           r",
 "|___awwwwwwwwwwwb",
@@ -250,7 +250,7 @@ const levels = [
 "l          r___l          r___cttttttd",
 "l          r___l          r__l       r",
 "l          r___l          r__l       r",
-"l          wwwwwb         r__l       r",
+"l          wwwwwb         r__l    o  r",
 "l                         r__l       r",
 "l                         r__l       r",
 "l                       cwb__awwd  cwb",
@@ -322,7 +322,26 @@ const tilesForMap = {
         'g': () => [
             k.sprite('ladder_lvlTwo'),
             k.pos(60, 70),
-            'ladder_lvls'
+            k.area(),
+            'ladder_lvlTwo'
+        ],
+        'h': () => [
+            k.sprite('ladder_lvlTwo'),
+            k.pos(60, 70),
+            k.area(),
+            'ladder_lvlThree'
+        ],
+        'j': () => [
+            k.sprite('ladder_lvlTwo'),
+            k.pos(60, 70),
+            k.area(),
+            'ladder_lvlFour'
+        ],
+        'o': () => [
+            k.sprite('ladder_lvlTwo'),
+            k.pos(60, 70),
+            k.area(),
+            'ladder_lvlFive'
         ],
         'e': () => [
         k.sprite('kid'),
@@ -330,13 +349,6 @@ const tilesForMap = {
         k.scale(1.2),
         k.area(),
         k.body({isStatic:true}),
-        ],
-        'j': () => [
-        k.sprite('skull'),
-        k.pos(620,30),
-        k.scale(1.2),
-        k.area(),
-        k.body({isStatic:true})
         ],
     },
 
@@ -371,15 +383,15 @@ k.scene("game", ({ levelIndex }) => {
 // fox.play('look')
 
 // --- BAT ---
-const bat = k.add([
-k.sprite('bat'),
-    k.pos(350,300),
-    k.scale(2),
-    k.body(),
-    k.area(),
-    'bat'
-])
-bat.play('walk')
+// const bat = k.add([
+// k.sprite('bat'),
+//     k.pos(350,300),
+//     k.scale(2),
+//     k.body(),
+//     k.area(),
+//     'bat'
+// ])
+// bat.play('walk')
 
 // --- COBRA ---
 // const cobra = k.add([
@@ -410,10 +422,6 @@ k.onUpdate('cat', () => {
         cat.play("fall")
         k.tween(cat.pos, k.vec2(300, 150), 1, (p) => {
             cat.pos = p
-        })
-
-        k.onCollide('cat', 't', () => {
-
         })
     }
 })
@@ -481,8 +489,27 @@ k.onKeyRelease('down', ()=>{
 })
 
 
+cat.onCollide('ladder_lvlTwo', ()=> {
+    if (props.isGameStarted) {
+        levelIndex = 1
+        k.go("game", { levelIndex: levelIndex })
+    }
+ })
+
+cat.onCollide('ladder_lvlThree', () => {
+    if (props.isGameStarted) {
+        levelIndex = 2
+        k.go("game", { levelIndex: levelIndex })
+    }
 })
 
+cat.onCollide('ladder_lvlFour', () => {
+    if (props.isGameStarted) {
+        levelIndex = 3
+        k.go("game", { levelIndex: levelIndex })
+    }
+})
+})
 
 
 
@@ -594,12 +621,7 @@ start()
 
 
 // не диалог
-// cat.onCollide('g', ()=> {
-//     if (props.isGameStarted) {
-//         props.levelIndex = 1
-//         k.go("game", { levelIndex: props.levelIndex })
-//     }
-//  })
+
 
 //function that displays or hides the elements.
 // function toggleSpeechBubble() {
