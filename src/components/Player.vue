@@ -53,7 +53,8 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
     sliceX: 8,
     sliceY: 5,
     anims: {
-        idle: {from: 0, to: 7, loop: true }
+        idle: {from: 0, to: 7, loop: true },
+        walk: {from: 8, to: 15, loop: true}
     }
 })
 
@@ -166,7 +167,7 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
 
 })
 
-// --- LVL 1 ---
+// --- УРОВНИ ---
 
 
 const levels = [
@@ -194,29 +195,28 @@ const levels = [
 "awwwwwwwwwwwwwwwwwwb",  
 ],
 [            
-"                         ",
-"cttttttttttttttttttttttttd",
+"_cttttttttttttttttttttttd",
 "l                       r",
 "l                       r",
 "l                       r",
 "l                       r",
 "l                       r",
-"l                       atttttd",
+"l                       tttttd",
 "l            cttttd          r",
-"l            r   l           r",
-"l            r   l           r",
-"l            r   l     g     r",
-"l            r   l           r",
-"l            r   l           r",
-"l            r   l       rwwwb",
-"l            r   l       r",
-"l            r   l       r",
-"awwwwwwwwwwwwb   awwwwwwwb",
+"l            r___l           r",
+"l            r___l           r",
+"l            r___l     g     r",
+"l            r___l           r",
+"l            r___l           r",
+"l            r___l       rwwwb",
+"l            r___l       r",
+"l            r___l       r",
+"awwwwwwwwwwwwb___awwwwwwwb",
 ],
 [
-"ctttttttttttttttttttd___cttttttttttd",            
+"_ctttttttttttttttttd_____cttttttttd",            
 "l                  r____l         r",
-"l                  rttttl         r",
+"l                  rtttttt        r",
 "l                                 r",
 "l                                 r",
 "l                                 r",
@@ -229,7 +229,7 @@ const levels = [
 "|______l    r___________l         r",
 "|______l    r___________l         r",
 "|______l    r___________awwwwwwwwwb",
-"|___cttl    rttttd________________|",
+"|____cttt   rtttd________________|",
 "|___l           r",
 "|___l           r",
 "|___l           r",
@@ -242,24 +242,24 @@ const levels = [
 "|___awwwwwwwwwwwb",
 ],
 [
-" ctttd ctttd",
-"l  __rl_   r",
-"l __wra_   r",
-"l   r_l    r    ctttttttttd           ",
-"l __rww_   r   l          r           ",
-"l         |r___l          r   cttttttd",
-"l         |r___l          r  l       r",
-"l         |r___l         |r_|l       r",
-"l         awwwwwb        |r_|l       r",
-"l         |____|         |r_|l       r",
-"l                        |r_|l       r",
-"l                       cwb_|awwd  cwb",
+"_ctttttttttd",
+"l          r",
+"l          r",
+"l          r____ctttttttttd",
+"l          r___l          r",
+"l          r___l          r___cttttttd",
+"l          r___l          r__l       r",
+"l          r___l          r__l       r",
+"l          wwwwwb         r__l       r",
+"l                         r__l       r",
+"l                         r__l       r",
+"l                       cwb__awwd  cwb",
 "l          cwwwwwd      r|____|l   r",
-"l          r___|l      |r_____|l   r",
-"l          r___|l      attd___|l   r",
-"l          r___|l      |__r___|l   r",
-"l          r___|l        |r___|l   r",
-"l          r___|l        awwwwwwb  r",
+"l          r___|l       r_____|l   r",
+"l          r___|l       ttd___|l   r",
+"l          r___|l         r___|l   r",
+"l          r___|l         r___|l   r",
+"l          r___|l         wwwwwwb  r",
 "l          r___|l                  r",
 "l          r___|l                  r",
 "awwwwwwwwwwb___|awwwwwwwwwwwwwwwwwwb",
@@ -278,7 +278,7 @@ const tilesForMap = {
     't': () => [
             k.sprite('wall-top'),
             k.pos(70,71),
-            k.area({collisionIgnore: ['cat']}),
+            k.area(),
             k.body({isStatic:true})
         ],
         'd': () => [
@@ -343,8 +343,10 @@ const tilesForMap = {
 }
 
 k.scene("game", ({ levelIndex }) => {
-    k.addLevel(levels[levelIndex], tilesForMap);
+    k.addLevel(levels[levelIndex], tilesForMap)
 
+
+    // --- КОТ ---
     const cat = k.add([
         k.sprite('cat'),
         k.pos(200, -100),
@@ -353,18 +355,54 @@ k.scene("game", ({ levelIndex }) => {
         k.area(),
         k.z(1),
         'cat',
-    ]);
-    cat.play('idle');
- 
-    
-    
+    ])
+    cat.play('idle')
+
+
+    // --- FOX ---
+// const fox = k.add([
+//     k.sprite('fox'),
+//     k.pos(550,100),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'fox'
+// ])
+// fox.play('look')
+
+// --- BAT ---
+const bat = k.add([
+k.sprite('bat'),
+    k.pos(350,300),
+    k.scale(2),
+    k.body(),
+    k.area(),
+    'bat'
+])
+bat.play('walk')
+
+// --- COBRA ---
+// const cobra = k.add([
+// k.sprite('cobra'),
+//     k.pos(200,400),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     k.state('move', ['idle', 'walk']),
+//     'cobra'
+// ])
+// cobra.play('idle')
+
+
+
+// --- флаги ---
 let left = false
 let right = false
 let up = false
 let down = false
+let fall = false 
 
-// --- УПРАВЛЕНИЕ ---
-let fall = false; 
+// --- ПАДЕНИЕ КОТА ---
 
 k.onUpdate('cat', () => {
     if (props.isGameStarted && !fall) {   
@@ -373,8 +411,15 @@ k.onUpdate('cat', () => {
         k.tween(cat.pos, k.vec2(300, 150), 1, (p) => {
             cat.pos = p
         })
+
+        k.onCollide('cat', 't', () => {
+
+        })
     }
 })
+
+// --- УПРАВЛЕНИЕ ---
+
 
 k.onKeyDown("left", () => {
     if (props.isGameStarted) {
@@ -431,12 +476,14 @@ k.onKeyRelease('down', ()=>{
     if(props.isGameStarted) {
          down = false
     cat.play('idle')   
-    }
+    } 
 
 })
 
 
-});
+})
+
+
 
 
 function start() {
@@ -444,49 +491,132 @@ function start() {
         levelIndex: 0,
         score: 0,
         lives: 3,
-    });
+    })
 }
 
-start();
+start()
 
 
 
 
-// --- FOX ---
-// const fox = k.add([
-//     k.sprite('fox'),
-//     k.pos(550,100),
-//     k.scale(2.5),
-//     k.body(),
+
+// --- ДИАЛОГИ levelID=0 ---
+// const dialogs = [
+//     "Sorcière, la forêt murmure d'un danger...",
+//     "...une plante envahissante nommée[green] Ambroisie[/green]...",
+//     "Elle ne devrait pas se trouver ici.",
+//     "Les plantes envahissantes comme[green] Ambroisie[/green] nuisent à la forêt...",
+//     " étouffant la vie de nos espèces natives.",
+//     "Sorcière, je t'en supplie, débarrasse-nous-en!",
+//     "Le temps presse et la forêt souffre."
+// ];
+
+
+// let curDialog = 0;
+
+// Speech Bubble
+// let speechBubble = k.add([
+//     k.rect(200, 36, { radius: 8 }),  
+//     k.pos(-100, -100),
+//     k.anchor("center"),
+//     k.color(0, 0, 0),
+//     k.opacity(0.9),
 //     k.area(),
-//     'fox'
-// ])
-// fox.play('look')
+//     "speechBubble"
+// ]);
 
-// --- BAT ---
-// const bat = k.add([
-// k.sprite('bat'),
-//     k.pos(550,100),
-//     k.scale(2.5),
-//     k.body(),
-//     k.area(),
-//     'bat'
-// ])
-// bat.play('walk')
+// //speech bubble triangle
+// let triangleVisible = false;
 
-// --- COBRA ---
-// const cobra = k.add([
-// k.sprite('cobra'),
-//     k.pos(550,100),
-//     k.scale(2.5),
-//     k.body(),
-//     k.area(),
-//     'cobra'
-// ])
-// cobra.play('idle')
+// function drawSpeechBubbleTriangle() {
+//     if (triangleVisible) {
+//         drawTriangle({
+//             p1: k.vec2(0, 0),
+//             p2: k.vec2(20, 12),
+//             p3: k.vec2(17, 0),
+//             pos: k.vec2(210, height()/2-12), 
+//             color: rgb(0, 0, 0),
+//             opacity: 0.9,
+//         });
+//     }
+// }
+
+// onDraw(() => {
+//     drawSpeechBubbleTriangle();
+// });
 
 
 
+// //speech bubble ↵ instruction
+// let speechBubbleInstruction = add([
+//     text("↵", {
+//         size: 10, 
+//         font: "sans-serif",
+//     }),
+//     pos(-100, -100),
+//     anchor("center"),
+//     color(0, 0, 0),
+//     z(3),
+//     area(),
+// ]);
+
+// //speech bubble ↵ instruction bubble
+// let speechBubbleInstructionBubble = add([
+//     rect(10, 10, { radius: 8 }),
+//     pos(-100, -100),
+//     anchor("center"),
+//     color(255, 255, 255),
+//     z(2),
+//     area(),
+// ]);
+
+
+
+
+// // Text inside the Speech Bubble
+// const speechText = add([
+//     text(dialogs[curDialog], {
+//         size: 40, 
+//         width: 700, 
+//         align: "center",
+//         font: "alagard",
+//         styles: {
+//             "green": (idx, ch) => ({
+//                 color: rgb(79, 152, 84),
+//             }),
+//         }
+//     }),
+//     pos(speechBubble.pos.x, speechBubble.pos.y),
+//     anchor("center"),
+//     color(255, 255, 255),
+//     scale(0.25)
+// ]);
+
+
+// не диалог
+// cat.onCollide('g', ()=> {
+//     if (props.isGameStarted) {
+//         props.levelIndex = 1
+//         k.go("game", { levelIndex: props.levelIndex })
+//     }
+//  })
+
+//function that displays or hides the elements.
+// function toggleSpeechBubble() {
+//     if (speechBubble.pos.x < 0) {
+//         speechBubble.pos = vec2(200, height()/2-30);
+//         speechText.pos = vec2(200, height()/2-30);  // Align text with bubble
+//         triangleVisible = true;;
+//         speechBubbleInstructionBubble.pos = vec2(299, height()/2-13);
+//         speechBubbleInstruction.pos = vec2(299, height()/2-12);
+//     } else {
+//         speechBubble.pos = vec2(-100, -100);
+//         speechText.pos = vec2(-100, -100);  // Hide text with bubble
+//         triangleVisible = false;
+//         speechBubbleInstructionBubble.pos = vec2(-100, -100);
+//         speechBubbleInstruction.pos = vec2(-100, -100);
+//     }
+// }
 
 </script>
 
