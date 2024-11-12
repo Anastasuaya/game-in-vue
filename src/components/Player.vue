@@ -370,7 +370,7 @@ k.scene("game", ({ levelIndex }) => {
     ])
     cat.play('idle')
 
-
+// --- NPC ---
     // --- FOX ---
 // const fox = k.add([
 //     k.sprite('fox'),
@@ -405,7 +405,14 @@ k.scene("game", ({ levelIndex }) => {
 // ])
 // cobra.play('idle')
 
-
+//--- ПР.ОБЪЕКТЫ
+k.add([
+    k.sprite('kid'),
+        k.pos(200,300),
+    k.scale(1.5),
+    k.body(),
+    k.area(),
+])
 
 // --- флаги ---
 let left = false
