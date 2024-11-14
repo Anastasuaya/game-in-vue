@@ -4,14 +4,15 @@
 
 <script setup lang="ts">
 import kaboom from 'kaboom';
+import {getLevels} from './../lib/levels'
 
 const props = defineProps(['isGameStarted'])
 
 const k = kaboom({background: [0,0,0]})
-
+const {levels,tilesForMap} = getLevels(k)
+console.log(tilesForMap)
 // --- СПРАЙТЫ ---
 
-// --- ПЕРСОНАЖИ ---
 // --- ИГРОК ---
 k.loadSprite('cat', '/sprites/cat_sprite.png', {
   sliceX: 4,
@@ -59,9 +60,6 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
 })
 
 
-
-// --- BACKGROUND ---
-k.loadSprite('bacground_lvl1', '/map/lvl1.png')
 
 // --- ОБЪЕКТЫ ДЛЯ ВЗАИМОДЕЙСТВИЯ ---
 k.loadSpriteAtlas('/objects/Objects_blood.png', {
@@ -164,277 +162,54 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
        'width': 32,
        'height': 32, 
     },
+    'obstacle': {
+        'x': 200,
+        'y': 240,
+        'width': 128,
+       'height': 32, 
+    },
 
 })
 
-// --- УРОВНИ ---
-
-
-const levels = [
-    [
-"_cttttttttttd",
-"l           r",
-"l           r",
-"l           r",
-"l           r",
-"l           r",
-"l           r",
-"l           r",
-"l     rwwwwwb",
-"l     r",
-"l     tttttttttttttd",
-"l                  r",
-"l                  r",
-"l                  r",
-"l                  r",
-"l            g     r",
-"l                  r",
-"l                  r",
-"l                  r",
-"l                  r",
-"awwwwwwwwwwwwwwwwwwb",  
-],
-[            
-"_cttttttttttttttttttttttd",
-"l                       r",
-"l                       r",
-"l                       r",
-"l                       r",
-"l                       r",
-"l                       tttttd",
-"l            cttttd          r",
-"l            r___l           r",
-"l            r___l           r",
-"l            r___l     h     r",
-"l            r___l           r",
-"l            r___l           r",
-"l            r___l       rwwwb",
-"l            r___l       r",
-"l            r___l       r",
-"awwwwwwwwwwwwb___awwwwwwwb",
-],
-[
-"_ctttttttttttttttttd_____cttttttttd",            
-"l                  r____l         r",
-"l                  rtttttt        r",
-"l                                 r",
-"l                                 r",
-"l                                 r",
-"l                  rwwwwl         r",
-"l                  r____l         r",
-"l                  r____l         r",
-"l                  r____l         r",
-"awwwwwww    wwwwwwwb____l         r",
-"|______l    r___________l         r",
-"|______l    r___________l         r",
-"|______l    r___________l         r",
-"|______l    r___________awwwwwwwwwb",
-"|____cttt   rtttd________________|",
-"|___l           r",
-"|___l           r",
-"|___l           r",
-"|___l           r",
-"|___l           r",
-"|___l           r",
-"|___l      j    r",
-"|___l           r",
-"|___l           r",
-"|___awwwwwwwwwwwb",
-],
-[
-"_ctttttttttd",
-"l          r",
-"l          r",
-"l          r____ctttttttttd",
-"l          r___l          r",
-"l          r___l          r___cttttttd",
-"l          r___l          r__l       r",
-"l          r___l          r__l       r",
-"l          wwwwwb         r__l    o  r",
-"l                         r__l       r",
-"l                         r__l       r",
-"l                       cwb__awwd  cwb",
-"l          cwwwwwd      r|____|l   r",
-"l          r___|l       r_____|l   r",
-"l          r___|l       ttd___|l   r",
-"l          r___|l         r___|l   r",
-"l          r___|l         r___|l   r",
-"l          r___|l         wwwwwwb  r",
-"l          r___|l                  r",
-"l          r___|l                  r",
-"awwwwwwwwwwb___|awwwwwwwwwwwwwwwwwwb",
-],
-]
-const tilesForMap = {
-    tileHeight: 32,
-    tileWidth: 32,
-    pos: k.vec2(64, 64),
-    tiles: {
-        " ": () => [
-            k.sprite('floor_stone', {frame: ~~k.rand(4)}),
-            k.pos(70,70),
-            k.z(-1)
-    ],
-    't': () => [
-            k.sprite('wall-top'),
-            k.pos(70,71),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'd': () => [
-            k.sprite('wall-topLeft'),
-            k.pos(70,70),
-        ],
-        'c': () => [
-            k.sprite('wall-topRight'),
-            k.pos(70,70),
-        ],
-        'l': () => [
-            k.sprite('wall-Left'),
-            k.pos(100,70),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'r': () => [
-            k.sprite('wall-Right'),
-            k.pos(70,70),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'w': () => [
-            k.sprite('wall-Bottom'),
-            k.pos(70,69),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'b': () => [
-            k.sprite('wall-BotR'),
-            k.pos(73,70),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'a': () => [
-            k.sprite('wall-BotL'),
-            k.pos(100,70),
-            k.area(),
-            k.body({isStatic:true})
-        ],
-        'g': () => [
-            k.sprite('ladder_lvlTwo'),
-            k.pos(60, 70),
-            k.area(),
-            'ladder_lvlTwo'
-        ],
-        'h': () => [
-            k.sprite('ladder_lvlTwo'),
-            k.pos(60, 70),
-            k.area(),
-            'ladder_lvlThree'
-        ],
-        'j': () => [
-            k.sprite('ladder_lvlTwo'),
-            k.pos(60, 70),
-            k.area(),
-            'ladder_lvlFour'
-        ],
-        'o': () => [
-            k.sprite('ladder_lvlTwo'),
-            k.pos(60, 70),
-            k.area(),
-            'ladder_lvlFive'
-        ],
-        'e': () => [
-        k.sprite('kid'),
-        k.pos(620,30),
-        k.scale(1.2),
-        k.area(),
-        k.body({isStatic:true}),
-        ],
-    },
-
-}
-
+// --- SCENE ---
 k.scene("game", ({ levelIndex }) => {
     k.addLevel(levels[levelIndex], tilesForMap)
 
 
-    // --- КОТ ---
-    const cat = k.add([
+
+    // --- cat ---
+    const cat_HEALTH = 200;
+    let cat = k.add([
         k.sprite('cat'),
-        k.pos(200, -100),
+        k.pos(200, -150),
         k.scale(2),
-        k.body(),
         k.area(),
+        k.body(),
+        k.health(cat_HEALTH),
         k.z(1),
         'cat',
     ])
+    const fallingCat = k.add([
+        k.sprite('cat'),
+        k.pos(200, -100),
+        k.scale(2),
+        k.area(),
+        k.z(1),
+        'fallingCat',
+    ])
     cat.play('idle')
 
-// --- NPC ---
-    // --- FOX ---
-// const fox = k.add([
-//     k.sprite('fox'),
-//     k.pos(550,100),
-//     k.scale(2.5),
-//     k.body(),
-//     k.area(),
-//     'fox'
-// ])
-// fox.play('look')
 
-// --- BAT ---
-// const bat = k.add([
-// k.sprite('bat'),
-//     k.pos(350,300),
-//     k.scale(2),
-//     k.body(),
-//     k.area(),
-//     'bat'
-// ])
-// bat.play('walk')
 
-// --- COBRA ---
-// const cobra = k.add([
-// k.sprite('cobra'),
-//     k.pos(200,400),
-//     k.scale(2.5),
-//     k.body(),
-//     k.area(),
-//     k.state('move', ['idle', 'walk']),
-//     'cobra'
-// ])
-// cobra.play('idle')
 
-//--- ПР.ОБЪЕКТЫ
-k.add([
-    k.sprite('kid'),
-        k.pos(200,300),
-    k.scale(1.5),
-    k.body(),
-    k.area(),
-])
 
-// --- флаги ---
+// --- УПРАВЛЕНИЕ ИГРОКОМ ---
+
 let left = false
 let right = false
 let up = false
 let down = false
 let fall = false 
-
-// --- ПАДЕНИЕ КОТА ---
-
-k.onUpdate('cat', () => {
-    if (props.isGameStarted && !fall) {   
-        fall = true
-        cat.play("fall")
-        k.tween(cat.pos, k.vec2(300, 150), 1, (p) => {
-            cat.pos = p
-        })
-    }
-})
-
-// --- УПРАВЛЕНИЕ ---
-
 
 k.onKeyDown("left", () => {
     if (props.isGameStarted) {
@@ -494,30 +269,141 @@ k.onKeyRelease('down', ()=>{
     } 
 
 })
+//-------------------------------------------
+
+// --- ДИАЛОГИ ---
 
 
+// --- LEVELS ---
+//-------------------------------------------
+//--- LEVEL ONE ---
+if(levelIndex === 0) {
+    // --- ПАДЕНИЕ КОТА ---
+    k.onUpdate('cat', () => {
+    if (props.isGameStarted && !fall) {   
+        fall = true
+        fallingCat.play("fall")
+        k.tween(fallingCat.pos, k.vec2(300, 150), 1, (p) => {
+            fallingCat.pos = p
+        })
+        setTimeout(()=>{
+            cat.pos = k.vec2(300,150)
+            fallingCat.play('idle')
+            fallingCat.destroy()
+            cat.play('idle')
+        },1000)
+    }
+})
 cat.onCollide('ladder_lvlTwo', ()=> {
     if (props.isGameStarted) {
         levelIndex = 1
         k.go("game", { levelIndex: levelIndex },)
+        
     }
  })
 
-cat.onCollide('ladder_lvlThree', () => {
+// NPC
+// --- BAT ---
+const bat = k.add([
+k.sprite('bat'),
+    k.pos(350,300),
+    k.scale(2),
+    k.z(2),
+    'bat'
+])
+bat.play('walk')
+
+let speed = 100
+let direction = 1
+let yDirection = 1
+
+k.onUpdate(() => {
+    if(props.isGameStarted){
+      bat.pos.x += speed * direction * k.dt() 
+      bat.pos.y += speed * yDirection * k.dt() 
+    if (bat.pos.x > 500) { 
+        direction = -1
+        bat.flipX = true
+    } else if (bat.pos.x < 200) { 
+        direction = 1 
+        bat.flipX =false
+    }
+    if (bat.pos.y > 300) { 
+        yDirection = -1
+        bat.flipX = true
+    } else if (bat.pos.y < 250) { 
+        yDirection = 1 
+        bat.flipX =false
+    }
+    }
+})
+
+//--- OBSTACLES ---
+k.add([
+    k.sprite('obstacle'),
+    k.pos(200,400),
+    k.body(),
+    k.area(),
+])
+}
+
+//--- LEVEL TWO ---
+if(levelIndex === 1) {
+    cat.pos = k.vec2(300, 250)
+    cat.onCollide('ladder_lvlThree', () => {
     if (props.isGameStarted) {
         levelIndex = 2
         k.go("game", { levelIndex: levelIndex })
     }
 })
 
+// --- COBRA ---
+// const cobra = k.add([
+// k.sprite('cobra'),
+//     k.pos(200,400),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     k.state('move', ['idle', 'walk']),
+//     'cobra'
+// ])
+// cobra.play('idle')
+}
+
+
+//--- LEVEL THREE---
+if(levelIndex === 2){
+    cat.pos = k.vec2(300, 250)
 cat.onCollide('ladder_lvlFour', () => {
     if (props.isGameStarted) {
         levelIndex = 3
         k.go("game", { levelIndex: levelIndex })
     }
 })
-})
 
+    // --- FOX ---
+// const fox = k.add([
+//     k.sprite('fox'),
+//     k.pos(550,100),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'fox'
+// ])
+// fox.play('look')
+
+}
+
+//--- LEVEL FOUR ---
+if(levelIndex === 3){
+    cat.pos = k.vec2(300, 250)
+}
+
+//-------------------------------------------
+
+
+
+})
 
 
 function start() {
@@ -529,8 +415,6 @@ function start() {
 }
 
 start()
-
-
 
 
 
