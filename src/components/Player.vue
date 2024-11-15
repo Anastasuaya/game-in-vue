@@ -11,6 +11,7 @@ const props = defineProps(['isGameStarted'])
 const k = kaboom({background: [0,0,0]})
 const {levels,tilesForMap} = getLevels(k)
 console.log(tilesForMap)
+
 // --- СПРАЙТЫ ---
 
 // --- ИГРОК ---
@@ -59,6 +60,14 @@ k.loadSprite('cobra', '/sprites/Cobra.png', {
     }
 })
 
+k.loadSprite('dragon', '/sprites/Dragon.png', {
+    sliceX: 8,
+    sliceY: 12,
+    anims: {
+        idle: { from: 0, to: 6, loop: true},
+        walk: {from: 8, to: 14, loop: true},
+    }
+})
 
 
 // --- ОБЪЕКТЫ ДЛЯ ВЗАИМОДЕЙСТВИЯ ---
@@ -165,8 +174,8 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
     'obstacle': {
         'x': 200,
         'y': 240,
-        'width': 128,
-       'height': 32, 
+        'width': 118,
+        'height': 32, 
     },
 
 })
@@ -175,7 +184,44 @@ k.loadSpriteAtlas('/map/base_tileset.png', {
 k.scene("game", ({ levelIndex }) => {
     k.addLevel(levels[levelIndex], tilesForMap)
 
+// --- paused menu ---
+// const game = k.add([
+// 		k.timer(),
+// 	])
 
+// const pauseMenu = k.add([
+// 		k.rect(300, 400),
+// 		k.color(255, 255, 255),
+// 		k.outline(4),
+// 		k.anchor("center"),
+// 		k.pos(k.center().add(0, 700)),
+// 	])
+
+// 	pauseMenu.hidden = true
+// 	pauseMenu.paused = true
+    
+// let curTween = null
+
+// k.onKeyPress("p", () => {
+//     game.paused = !game.paused
+//     if (curTween) curTween.cancel()
+//     curTween = k.tween(
+//         pauseMenu.pos,
+//         game.paused ? k.center() : k.center().add(0, 700),
+//         1,
+//         (p) => pauseMenu.pos = p,
+//         easings.easeOutElastic,
+//     )
+//     if (game.paused) {
+//         pauseMenu.hidden = false
+//         pauseMenu.paused = false
+//     } else {
+//         curTween.onEnd(() => {
+//             pauseMenu.hidden = true
+//             pauseMenu.paused = true
+//         })
+//     }
+// })
 
     // --- cat ---
     const cat_HEALTH = 200;
@@ -276,7 +322,7 @@ k.onKeyRelease('down', ()=>{
 
 // --- LEVELS ---
 //-------------------------------------------
-//--- LEVEL ONE ---
+//--- LEVELID 0 ---
 if(levelIndex === 0) {
     // --- ПАДЕНИЕ КОТА ---
     k.onUpdate('cat', () => {
@@ -338,16 +384,28 @@ k.onUpdate(() => {
     }
 })
 
+// const dragon = k.add([
+//     k.sprite('dragon'),
+//     k.pos(350,500),
+//     k.scale(2.5),
+//     k.body(),
+//     k.area(),
+//     'dragon'
+// ])
+// dragon.play('walk')
+
+
 //--- OBSTACLES ---
 k.add([
     k.sprite('obstacle'),
+    // k.rect(118, 32), 
     k.pos(200,400),
     k.body(),
     k.area(),
 ])
 }
 
-//--- LEVEL TWO ---
+//--- LEVELID ONE ---
 if(levelIndex === 1) {
     cat.pos = k.vec2(300, 250)
     cat.onCollide('ladder_lvlThree', () => {
@@ -371,7 +429,7 @@ if(levelIndex === 1) {
 }
 
 
-//--- LEVEL THREE---
+//--- LEVELID TWO---
 if(levelIndex === 2){
     cat.pos = k.vec2(300, 250)
 cat.onCollide('ladder_lvlFour', () => {
@@ -394,9 +452,36 @@ cat.onCollide('ladder_lvlFour', () => {
 
 }
 
-//--- LEVEL FOUR ---
+//--- LEVELID THREE---
 if(levelIndex === 3){
     cat.pos = k.vec2(300, 250)
+    cat.onCollide('ladder_lvlFive', () => {
+    if (props.isGameStarted) {
+        levelIndex = 4
+        k.go("game", { levelIndex: levelIndex })
+    }
+})
+}
+// --- LEVELID FOUR ---
+if(levelIndex === 4){
+    cat.pos = k.vec2(300, 250)
+    cat.onCollide('ladder_lvlSix', () => {
+    if (props.isGameStarted) {
+        levelIndex = 5
+        k.go("game", { levelIndex: levelIndex })
+    }
+})
+}
+
+// --- LEVELID FIVE ---
+if(levelIndex === 5){
+    cat.pos = k.vec2(300, 250)
+    cat.onCollide('ladder_lvlSix', () => {
+    if (props.isGameStarted) {
+        levelIndex = 0
+        k.go("game", { levelIndex: levelIndex })
+    }
+})
 }
 
 //-------------------------------------------
