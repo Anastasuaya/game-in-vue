@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+
 <Intro
 v-if="!isGameStarted && !isSettingsOpen && !isHelpOpen"
 @startGame="handleStartGame"
@@ -13,7 +13,6 @@ v-if="!isGameStarted && !isSettingsOpen && !isHelpOpen"
   :isGameStarted="isGameStarted"
 ></Player>
 
-</div>
 </div>
 
 </template>
@@ -58,12 +57,7 @@ const closeHelp = () => {
 </script>
 
 <style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 
 
 </style>

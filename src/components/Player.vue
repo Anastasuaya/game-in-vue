@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import kaboom from 'kaboom';
+import kaboom from 'kaboom'
+// import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs"
 import {getLevels} from './../lib/levels'
 import {getSprites} from './../sprites/sprites'
 import {getTiles} from './../objects/objects'
