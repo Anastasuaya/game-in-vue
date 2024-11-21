@@ -65,7 +65,7 @@ k.scene("game", ({ levelIndex }) => {
         k.sprite('cat'),
         k.pos(200, -150),
         k.scale(2),
-        k.area(),
+	    k.area({ shape: new k.Rect(k.vec2(2, 6), 20,20)}),
         k.body(),
         k.health(cat_HEALTH),
         k.z(1),
@@ -80,10 +80,6 @@ k.scene("game", ({ levelIndex }) => {
         'fallingCat',
     ])
     cat.play('idle')
-
-
-
-
 
 // --- УПРАВЛЕНИЕ ИГРОКОМ ---
 
@@ -159,6 +155,8 @@ k.onKeyRelease('down', ()=>{
 // --- LEVELS ---
 //-------------------------------------------
 //--- LEVELID 0 ---
+
+
 if(levelIndex === 0) {
     // --- ПАДЕНИЕ КОТА ---
     k.onUpdate('cat', () => {
@@ -172,10 +170,12 @@ if(levelIndex === 0) {
             cat.pos = k.vec2(300,150)
             fallingCat.play('idle')
             fallingCat.destroy()
-            cat.play('idle')
+            cat.play('idleR')
         },1000)
     }
 })
+
+
 cat.onCollide('ladder_lvlTwo', ()=> {
     if (props.isGameStarted) {
         levelIndex = 1
@@ -220,15 +220,16 @@ k.onUpdate(() => {
     }
 })
 
-// const dragon = k.add([
-//     k.sprite('dragon'),
-//     k.pos(350,500),
-//     k.scale(2.5),
-//     k.body(),
-//     k.area(),
-//     'dragon'
-// ])
-// dragon.play('walk')
+const dragon = k.add([
+    k.sprite('dragon'),
+    k.pos(350,500),
+    k.scale(2.5),
+    k.body({isStatic: true}),
+    k.area({ shape: new k.Rect(k.vec2(2, 4), 20,16)}),
+    'dragon',
+    
+])
+dragon.play('idle')
 
 
 //--- OBSTACLES ---
@@ -240,6 +241,57 @@ k.add([
     k.area(),
 ])
 }
+
+
+function addDialog() {
+		const h = 160
+		const pad = 16
+		const bg = k.add([
+			k.pos(0, k.height() - h),
+			k.rect(k.width(), h),
+			k.color(0, 0, 0),
+			k.z(100),
+		])
+		const txt = k.add([
+			k.text("", {
+				width: k.width(),
+			}),
+			k.pos(0 + pad, k.height() - h + pad),
+			k.z(100),
+		])
+		bg.hidden = true
+		txt.hidden = true
+		return {
+			say(t: any)  {
+				txt.text = t
+				bg.hidden = false
+				txt.hidden = false
+			},
+			dismiss() {
+				if (!this.active()) {
+					return
+				}
+				txt.text = ""
+				bg.hidden = true
+				txt.hidden = true
+			},
+			active() {
+				return !bg.hidden
+			},
+			destroy() {
+				bg.destroy()
+				txt.destroy()
+			},
+		}
+	}
+	const dialog = addDialog()
+
+    cat.onCollide("dragon", (o,c) => {
+        console.log(o,c)
+			dialog.say("Кто ты???")
+	})
+
+
 
 //--- LEVELID ONE ---
 if(levelIndex === 1) {
