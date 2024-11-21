@@ -223,10 +223,10 @@ k.onUpdate(() => {
 
 const dragon = k.add([
     k.sprite('dragon'),
-    k.pos(350,500),
+    k.pos(350,600),
     k.scale(2.5),
     k.body({isStatic: true}),
-    k.area({ shape: new k.Rect(k.vec2(2, 4), 20,16)}),
+    k.area({ shape: new k.Rect(k.vec2(0), 5,5)}),
     'dragon',
     
 ])
