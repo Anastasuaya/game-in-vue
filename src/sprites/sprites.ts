@@ -1,7 +1,7 @@
 import { KaboomCtx } from 'kaboom';
 export const getSprites = (k:KaboomCtx)=> {
 
-  k.loadSprite('cat', '/sprites/cat_sprite.png', {
+  k.loadSprite('cat', 'sprites/cat_sprite.png', {
     sliceX: 4,
     sliceY: 9,
     anims: {
@@ -19,7 +19,7 @@ export const getSprites = (k:KaboomCtx)=> {
   })
   
   // --- НПС ---
-  k.loadSprite('fox', '/sprites/Fox.png', {
+  k.loadSprite('fox', 'sprites/Fox.png', {
       sliceX: 14,
       sliceY: 7,
       anims: {
@@ -29,7 +29,7 @@ export const getSprites = (k:KaboomCtx)=> {
       }
   })
   
-  k.loadSprite('bat','/sprites/Bat.png', {
+  k.loadSprite('bat','sprites/Bat.png', {
       sliceX: 5,
       sliceY: 3,
       anims: {
@@ -37,7 +37,7 @@ export const getSprites = (k:KaboomCtx)=> {
       }
   })
   
-  k.loadSprite('cobra', '/sprites/Cobra.png', {
+  k.loadSprite('cobra', 'sprites/Cobra.png', {
       sliceX: 8,
       sliceY: 5,
       anims: {
@@ -46,7 +46,7 @@ export const getSprites = (k:KaboomCtx)=> {
       }
   })
   
-  k.loadSprite('dragon', '/sprites/Dragon.png', {
+  k.loadSprite('dragon', 'sprites/Dragon.png', {
       sliceX: 8,
       sliceY: 12,
       anims: {

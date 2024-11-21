@@ -3,7 +3,7 @@ export const getTiles = (k:KaboomCtx)=>{
 
 
 
-k.loadSpriteAtlas('/objects/Objects_blood.png', {
+k.loadSpriteAtlas('objects/Objects_blood.png', {
   'kid': {
       'x': 1,
       'y': 1,
@@ -21,7 +21,7 @@ k.loadSpriteAtlas('/objects/Objects_blood.png', {
   },
 })
 // --- ТАЙЛЫ ДЛЯ КАРТЫ ---
-k.loadSpriteAtlas('/map/base_tileset.png', {
+k.loadSpriteAtlas('map/base_tileset.png', {
   'ladder': {
      'x': 290,
      'y': 3,
