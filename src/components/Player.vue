@@ -180,7 +180,7 @@ if(levelIndex === 0) {
             fallingCat.destroy()
             cat.play('idleR')
                 }, 1000)
-            let timerId = setTimeout(() => {
+                 k.wait(1,() => {
                     const Bubble = k.add([
                         k.rect(200, 75, { radius: 10 }),
                         k.pos(290, 112),
@@ -245,10 +245,16 @@ if(levelIndex === 0) {
                 k.onKeyPress('enter', () =>{
                     const [dialog] = dialogs[curDialog +1]
                     Text.text = dialog
-                }) 
-                }, 1300)
-                
-                clearTimeout(timerId)
+                })
+                k.wait(3, () =>{
+                k.destroy(Bubble)
+                k.destroy(Text)
+                k.destroy(circle)
+                k.destroy(BubbleInstruction)
+                triangleVisible = false
+                })
+
+                })
             }
 })
 
@@ -315,58 +321,58 @@ k.add([
     k.sprite('obstacle'),
     // k.rect(118, 32), 
     k.pos(200,400),
-    // k.body({mass: 7}),
+    k.body({mass: 7}),
     k.area(),
 ])
 }
 
 
-// function addDialog() {
-// 		const h = 160
-// 		const pad = 16
-// 		const bg = k.add([
-// 			k.pos(0, k.height() - h),
-// 			k.rect(k.width(), h),
-// 			k.color(0, 0, 0),
-// 			k.z(100),
-// 		])
-// 		const txt = k.add([
-// 			k.text("", {
-// 				width: k.width(),
-// 			}),
-// 			k.pos(0 + pad, k.height() - h + pad),
-// 			k.z(100),
-// 		])
-// 		bg.hidden = true
-// 		txt.hidden = true
-// 		return {
-// 			say(t: any)  {
-// 				txt.text = t
-// 				bg.hidden = false
-// 				txt.hidden = false
-// 			},
-// 			dismiss() {
-// 				if (!this.active()) {
-// 					return
-// 				}
-// 				txt.text = ""
-// 				bg.hidden = true
-// 				txt.hidden = true
-// 			},
-// 			active() {
-// 				return !bg.hidden
-// 			},
-// 			destroy() {
-// 				bg.destroy()
-// 				txt.destroy()
-// 			},
-// 		}
-// 	}
-// 	const dialog = addDialog()
+function addDialog() {
+		const h = 160
+		const pad = 16
+		const bg = k.add([
+			k.pos(0, k.height() - h),
+			k.rect(k.width(), h),
+			k.color(0, 0, 0),
+			k.z(100),
+		])
+		const txt = k.add([
+			k.text("", {
+				width: k.width(),
+			}),
+			k.pos(0 + pad, k.height() - h + pad),
+			k.z(100),
+		])
+		bg.hidden = true
+		txt.hidden = true
+		return {
+			say(t: any)  {
+				txt.text = t
+				bg.hidden = false
+				txt.hidden = false
+			},
+			dismiss() {
+				if (!this.active()) {
+					return
+				}
+				txt.text = ""
+				bg.hidden = true
+				txt.hidden = true
+			},
+			active() {
+				return !bg.hidden
+			},
+			destroy() {
+				bg.destroy()
+				txt.destroy()
+			},
+		}
+	}
+	const dialog = addDialog()
 
     cat.onCollide("dragon", (o,c) => {
         console.log(o,c)
-			// dialog.say("Кто ты???")
+			dialog.say("Кто ты???")
 	})
 
 
