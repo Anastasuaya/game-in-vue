@@ -66,7 +66,7 @@ k.scene("game", ({ levelIndex }) => {
         k.sprite('cat'),
         k.pos(200, -150),
         k.scale(2),
-	    k.area({ shape: new k.Rect(k.vec2(2, 6), 20,20)}),
+	    k.area({ shape: new k.Rect(k.vec2(2, 6), 25,20)}),
         k.body(),
         k.health(cat_HEALTH),
         k.z(1),
@@ -150,12 +150,19 @@ k.onKeyRelease('down', ()=>{
 })
 //-------------------------------------------
 
-// --- ДИАЛОГИ ---
-
 
 // --- LEVELS ---
 //-------------------------------------------
 //--- LEVELID 0 ---
+
+// --- ДИАЛОГИ ---
+
+const dialogs = [
+    ['Где я?'],
+    ['Наверное, нужно осмотреться'],
+]
+
+let curDialog = 0
 
 
 if(levelIndex === 0) {
@@ -172,10 +179,80 @@ if(levelIndex === 0) {
             fallingCat.play('idle')
             fallingCat.destroy()
             cat.play('idleR')
-        },1000)
-    }
+                }, 1000)
+            let timerId = setTimeout(() => {
+                    const Bubble = k.add([
+                        k.rect(200, 75, { radius: 10 }),
+                        k.pos(290, 112),
+                        k.anchor('center'),
+                        k.opacity(0.9),
+                        k.color(),
+                        k.area(),
+                        'Bubble'
+                    ])
+
+                    const circle = k.add([
+                        k.rect(25, 25, { radius: 50 }),
+                        k.pos(380, 147),
+                        k.anchor('center'),
+                        k.color(113, 153, 191),
+                        k.opacity(0.9),
+                        k.area(),
+                        'circle'
+                    ])
+                    let triangleVisible = true
+                    function drawBubbleTriangle() {
+                        if (triangleVisible) {
+                            k.drawTriangle({
+                                p1: k.vec2(0, 0),
+                                p2: k.vec2(20, 12),
+                                p3: k.vec2(17, 0),
+                                pos: k.vec2(320, 150),
+                                color: k.rgb(),
+                                opacity: 0.9,
+                            })
+                        }
+                    }
+
+                    k.onDraw(() => {
+                        drawBubbleTriangle()
+                    })
+
+                    const BubbleInstruction = k.add([
+                        k.text("↵", {
+                            size: 30,
+                            font: "sans-serif",
+                        }),
+                        k.pos(380, 150),
+                        k.anchor("center"),
+                        k.color(0, 0, 0),
+                        k.z(3),
+                        k.area(),
+                    ])
+
+                    const Text = k.add([
+                        k.text(dialogs[curDialog], {
+                            size: 100,
+                            width: 700,
+                            align: "center",
+                            font: "alagard",
+                        }),
+                        k.pos(Bubble.pos.x, Bubble.pos.y),
+                        k.anchor("center"),
+                        k.color(0, 0, 0),
+                        k.scale(0.25)
+                    ])
+                k.onKeyPress('enter', () =>{
+                    const [dialog] = dialogs[curDialog +1]
+                    Text.text = dialog
+                }) 
+                }, 1300)
+                
+                clearTimeout(timerId)
+            }
 })
 
+            
 
 cat.onCollide('ladder_lvlTwo', ()=> {
     if (props.isGameStarted) {
@@ -226,7 +303,7 @@ const dragon = k.add([
     k.pos(350,600),
     k.scale(2.5),
     k.body({isStatic: true}),
-    k.area({ shape: new k.Rect(k.vec2(0), 5,5)}),
+    k.area({ shape: new k.Rect(k.vec2(10,20), 10,10)}),
     'dragon',
     
 ])
@@ -238,58 +315,58 @@ k.add([
     k.sprite('obstacle'),
     // k.rect(118, 32), 
     k.pos(200,400),
-    k.body(),
+    // k.body({mass: 7}),
     k.area(),
 ])
 }
 
 
-function addDialog() {
-		const h = 160
-		const pad = 16
-		const bg = k.add([
-			k.pos(0, k.height() - h),
-			k.rect(k.width(), h),
-			k.color(0, 0, 0),
-			k.z(100),
-		])
-		const txt = k.add([
-			k.text("", {
-				width: k.width(),
-			}),
-			k.pos(0 + pad, k.height() - h + pad),
-			k.z(100),
-		])
-		bg.hidden = true
-		txt.hidden = true
-		return {
-			say(t: any)  {
-				txt.text = t
-				bg.hidden = false
-				txt.hidden = false
-			},
-			dismiss() {
-				if (!this.active()) {
-					return
-				}
-				txt.text = ""
-				bg.hidden = true
-				txt.hidden = true
-			},
-			active() {
-				return !bg.hidden
-			},
-			destroy() {
-				bg.destroy()
-				txt.destroy()
-			},
-		}
-	}
-	const dialog = addDialog()
+// function addDialog() {
+// 		const h = 160
+// 		const pad = 16
+// 		const bg = k.add([
+// 			k.pos(0, k.height() - h),
+// 			k.rect(k.width(), h),
+// 			k.color(0, 0, 0),
+// 			k.z(100),
+// 		])
+// 		const txt = k.add([
+// 			k.text("", {
+// 				width: k.width(),
+// 			}),
+// 			k.pos(0 + pad, k.height() - h + pad),
+// 			k.z(100),
+// 		])
+// 		bg.hidden = true
+// 		txt.hidden = true
+// 		return {
+// 			say(t: any)  {
+// 				txt.text = t
+// 				bg.hidden = false
+// 				txt.hidden = false
+// 			},
+// 			dismiss() {
+// 				if (!this.active()) {
+// 					return
+// 				}
+// 				txt.text = ""
+// 				bg.hidden = true
+// 				txt.hidden = true
+// 			},
+// 			active() {
+// 				return !bg.hidden
+// 			},
+// 			destroy() {
+// 				bg.destroy()
+// 				txt.destroy()
+// 			},
+// 		}
+// 	}
+// 	const dialog = addDialog()
 
     cat.onCollide("dragon", (o,c) => {
         console.log(o,c)
-			dialog.say("Кто ты???")
+			// dialog.say("Кто ты???")
 	})
 
 
@@ -482,10 +559,8 @@ start()
 //     anchor("center"),
 //     color(255, 255, 255),
 //     scale(0.25)
-// ]);
+// ])
 
-
-// не диалог
 
 
 //function that displays or hides the elements.

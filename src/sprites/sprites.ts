@@ -48,7 +48,7 @@ export const getSprites = (k:KaboomCtx)=> {
   
   k.loadSprite('dragon', 'sprites/Dragon.png', {
       sliceX: 8,
-      sliceY: 12,
+      sliceY: 9,
       anims: {
           idle: { from: 0, to: 6, loop: true},
           walk: {from: 8, to: 14, loop: true},
