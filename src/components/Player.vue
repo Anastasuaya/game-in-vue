@@ -283,7 +283,7 @@ k.scene("game", ({ levelIndex }) => {
                     fallingCat.destroy()
                     cat.play('idleR')
                 }, 1000)
-                k.wait(1.5, () => {
+                k.wait(0.1, () => {
                     // catDialog()
                     // k.onKeyPress('enter', () => {
                     //     CatCurDialog++

@@ -18,6 +18,12 @@ export const getSprites = (k:KaboomCtx)=> {
     }
   })
   
+//   k.loadSprite('cat', 'sprites/catWait.png',{
+//     sliceX: 5,
+//     anims: {
+//         Wait: {from: 0, to: 4, loop: false}
+//     }
+//   }) 
   // --- НПС ---
   k.loadSprite('fox', 'sprites/Fox.png', {
       sliceX: 14,
