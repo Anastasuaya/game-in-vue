@@ -295,85 +295,85 @@ k.scene("game", ({ levelIndex }) => {
             }
         })
 
-        const CatOrDragonDialog = [
-            [ 'dragon', 'Я злой и могучий дракон!' ],
-            ['dragon', '*рычание*']
-        ]
+    //     const CatOrDragonDialog = [
+    //         [ 'dragon', 'Я злой и могучий дракон!' ],
+    //         ['dragon', '*рычание*']
+    //     ]
 
-    function catDragonDialog(){
-           const Bubble = k.add([
-        k.rect(k.width() - 800, 120, { radius: 32 }),
-        k.pos(k.center().x, k.height() - 90),
-        k.anchor('center'),
-        k.opacity(0.9),
-        k.outline(4),
-        k.color(),
-        // k.area(),
-        'Bubble'
-    ])
+    // function catDragonDialog(){
+    //        const Bubble = k.add([
+    //     k.rect(k.width() - 800, 120, { radius: 32 }),
+    //     k.pos(k.center().x, k.height() - 90),
+    //     k.anchor('center'),
+    //     k.opacity(0.9),
+    //     k.outline(4),
+    //     k.color(),
+    //     // k.area(),
+    //     'Bubble'
+    // ])
 
-    const Text = k.add([
-        k.text('', {
-            size: 100,
-            width: 800,
-            align: "center",
-            font: "alagard",
-        }),
-        k.pos(Bubble.pos),
-        k.anchor("center"),
-        k.color(0, 0, 0),
-        k.scale(0.5),
-        k.z(3)
-    ])
+    // const Text = k.add([
+    //     k.text('', {
+    //         size: 100,
+    //         width: 800,
+    //         align: "center",
+    //         font: "alagard",
+    //     }),
+    //     k.pos(Bubble.pos),
+    //     k.anchor("center"),
+    //     k.color(0, 0, 0),
+    //     k.scale(0.5),
+    //     k.z(3)
+    // ])
 
-    const circle = k.add([
-        k.rect(100, 70, { radius: 50 }),
-        k.pos(Bubble.pos.x + 520, Bubble.pos.y + 40),
-        k.anchor('center'),
-        k.color(113, 153, 191),
-        k.opacity(0.9),
-        k.area(),
-        'circle'
-    ])
+    // const circle = k.add([
+    //     k.rect(100, 70, { radius: 50 }),
+    //     k.pos(Bubble.pos.x + 520, Bubble.pos.y + 40),
+    //     k.anchor('center'),
+    //     k.color(113, 153, 191),
+    //     k.opacity(0.9),
+    //     k.area(),
+    //     'circle'
+    // ])
 
 
-    const BubbleInstruction = k.add([
-        k.text("↵", {
-            size: 50,
-            font: "sans-serif",
-        }),
-        k.pos(circle.pos.x, circle.pos.y + 5),
-        k.anchor("center"),
-        k.color(0, 0, 0),
-        k.z(3),
-        k.area(),
-        'BubbleInstruction'
-    ])
+    // const BubbleInstruction = k.add([
+    //     k.text("↵", {
+    //         size: 50,
+    //         font: "sans-serif",
+    //     }),
+    //     k.pos(circle.pos.x, circle.pos.y + 5),
+    //     k.anchor("center"),
+    //     k.color(0, 0, 0),
+    //     k.z(3),
+    //     k.area(),
+    //     'BubbleInstruction'
+    // ])
 
-    k.onKeyPress('enter', ()=> {
-        	// Cycle through the dialogs
-	curDialog = (curDialog + 1) % dialog.length
-	updateDialog()
+//     k.onKeyPress('enter', ()=> {
+//         	// Cycle through the dialogs
+// 	curDialog = (curDialog + 1) % dialog.length
+// 	updateDialog()
 
-})
+// })
 
 // Update the on screen sprite & text
-function updateDialog() {
+// function updateDialog() {
 
-	const  [char,dialogs] = CatOrDragonDialog[curDialog]
-    dragon.use(k.sprite(char))
-	// Update the dialog text
-	Text.text = dialogs
+// 	const  [char,dialogs] = CatOrDragonDialog[curDialog]
+//     dragon.use(k.sprite(char))
+// 	// Update the dialog text
+// 	Text.text = dialogs
 
-}
-updateDialog()
+// }
+// updateDialog()
 // k.wait(6, () => {
 //     k.destroy(Bubble)
 //     k.destroy(Text)
 //     k.destroy(BubbleInstruction)
 //     k.destroy(circle)
 // })
-    }
+    // }
         // NPC
         // --- DRAGON --- 
         const dragon = k.add([
