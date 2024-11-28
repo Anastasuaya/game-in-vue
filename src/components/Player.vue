@@ -157,95 +157,114 @@ k.scene("game", ({ levelIndex }) => {
 
     // --- ДИАЛОГИ ---
 
-    // {text:'Где я?', speaker:'cat'},
-    //     {text:'Наверное, нужно осмотреться', speaker: 'cat'},
+    // const CatDialogs = [
+    //     'Где я?',
+    //     'Наверное, нужно осмотреться',
+    // ]
+
+    // const DragonDialog = [ 
+    // 'Я злой и могучий дракон!',
+    //     '*рычание*',
+    // ]
+
+    // let CatCurDialog = 0
+    // let DragonCurDialog = 0
 
 
-    const dialogs = [
-        {speaker: 'cat', Text: 'Где я?'},
-        {speaker: 'cat',Text:'Наверное, нужно осмотреться'},
-        {speaker: 'cat',Text:'Кто ты?'},
-        {speaker: 'dragon',Text:'Я злой и могучий дракон!'},
-        {speaker: 'dragon',Text:'*рычание*'},
-    ]
+    // const dialog = [
+    //     { speaker: 'cat', text: 'Где я?' },
+    //     { speaker: 'cat', text: 'Наверное, нужно осмотреться' },
+    //     { speaker: 'cat', text: 'Кто ты?' },
+    //     { speaker: 'dragon', text: 'Я злой и могучий дракон!' },
+    //     { speaker: 'dragon', text: '*рычание*' },
+    // ]
 
 
-    let curDialog = 0
-
-            const Bubble = k.add([
-            k.rect(200, 75, { radius: 10 }),
-            k.pos(cat.pos.x, cat.pos.y - 40),
-            k.anchor('center'),
-            k.opacity(0.9),
-            k.color(),
-            k.area(),
-            'Bubble'
-        ])
-
-        const circle = k.add([
-            k.rect(25, 25, { radius: 50 }),
-            k.pos(Bubble.pos.x +90, Bubble.pos.y + 30),
-            k.anchor('center'),
-            k.color(113, 153, 191),
-            k.opacity(0.9),
-            k.area(),
-            'circle'
-        ])
-        let triangleVisible = true
-        function drawBubbleTriangle() {
-            if (triangleVisible) {
-                k.drawTriangle({
-                    p1: k.vec2(0, 0),
-                    p2: k.vec2(20, 12),
-                    p3: k.vec2(17, 0),
-                    pos: k.vec2(Bubble.pos.x + 20, Bubble.pos.y + 38),
-                    color: k.rgb(),
-                    opacity: 0.9,
-                })
-            }
-        }
-
-        k.onDraw(() => {
-            drawBubbleTriangle()
-        })
-
-        const BubbleInstruction = k.add([
-            k.text("↵", {
-                size: 30,
-                font: "sans-serif",
-            }),
-            k.pos(circle.pos.x, circle.pos.y + 5),
-            k.anchor("center"),
-            k.color(0, 0, 0),
-            k.z(3),
-            k.area(),
-        ])
-
-        const Text = k.add([
-            k.text('', {
-                size: 100,
-                width: 700,
-                align: "center",
-                font: "alagard",
-            }),
-            k.pos(Bubble.pos.x, Bubble.pos.y),
-            k.anchor("center"),
-            k.color(0, 0, 0),
-            k.scale(0.25)
-        ])
     
-        k.onKeyPress('enter', () => {
-            const dialog = dialogs[curDialog + 1]
-            Text.text = dialog
-  })
-        k.wait(3, () => {
-            k.destroy(Bubble),
-            k.destroy(circle),
-            k.destroy(BubbleInstruction)
-            k.destroy(Text)
-            triangleVisible = false
-        })
+//     const dialog = [
+//          [ 'cat','Где я?' ],
+//         [ 'cat' ,'Наверное, нужно осмотреться'],
+//         ['cat','Кто ты?'],
+//         // [ 'dragon','Я злой и могучий дракон!' ],
+//     ]
 
+//     let curDialog = 0
+//     function catDialog(){
+//            const Bubble = k.add([
+//         k.rect(k.width() - 800, 120, { radius: 32 }),
+//         k.pos(k.center().x, k.height() - 90),
+//         k.anchor('center'),
+//         k.opacity(0.9),
+//         k.outline(4),
+//         k.color(),
+//         // k.area(),
+//         'Bubble'
+//     ])
+
+//     const Text = k.add([
+//         k.text('', {
+//             size: 100,
+//             width: 800,
+//             align: "center",
+//             font: "alagard",
+//         }),
+//         k.pos(Bubble.pos),
+//         k.anchor("center"),
+//         k.color(0, 0, 0),
+//         k.scale(0.5),
+//         k.z(3)
+//     ])
+
+//     const circle = k.add([
+//         k.rect(100, 70, { radius: 50 }),
+//         k.pos(Bubble.pos.x + 520, Bubble.pos.y + 40),
+//         k.anchor('center'),
+//         k.color(113, 153, 191),
+//         k.opacity(0.9),
+//         k.area(),
+//         'circle'
+//     ])
+
+
+//     const BubbleInstruction = k.add([
+//         k.text("↵", {
+//             size: 50,
+//             font: "sans-serif",
+//         }),
+//         k.pos(circle.pos.x, circle.pos.y + 5),
+//         k.anchor("center"),
+//         k.color(0, 0, 0),
+//         k.z(3),
+//         k.area(),
+//         'BubbleInstruction'
+//     ])
+
+//     k.onKeyPress('enter', ()=> {
+//         	// Cycle through the dialogs
+// 	curDialog = (curDialog + 1) % dialog.length
+// 	updateDialog()
+
+// })
+
+// // Update the on screen sprite & text
+// function updateDialog() {
+
+// 	const  [char,dialogs] = dialog[curDialog]
+//     cat.use(k.sprite(char))
+// 	// Update the dialog text
+// 	Text.text = dialogs
+
+// }
+// updateDialog()
+// k.wait(3, () => {
+//     k.destroy(Bubble)
+//     k.destroy(Text)
+//     k.destroy(BubbleInstruction)
+//     k.destroy(circle)
+// })
+//     }
+
+    // ------------------------------------------------------------------------------------
 
 
 
@@ -265,10 +284,96 @@ k.scene("game", ({ levelIndex }) => {
                     cat.play('idleR')
                 }, 1000)
                 k.wait(1.5, () => {
+                    // catDialog()
+                    // k.onKeyPress('enter', () => {
+                    //     CatCurDialog++
+                    //     const dialog = CatDialogs[CatCurDialog]
+                    //     Text.text = dialog
+                    // })
+
                 })
             }
         })
 
+        const CatOrDragonDialog = [
+            [ 'dragon', 'Я злой и могучий дракон!' ],
+            ['dragon', '*рычание*']
+        ]
+
+    function catDragonDialog(){
+           const Bubble = k.add([
+        k.rect(k.width() - 800, 120, { radius: 32 }),
+        k.pos(k.center().x, k.height() - 90),
+        k.anchor('center'),
+        k.opacity(0.9),
+        k.outline(4),
+        k.color(),
+        // k.area(),
+        'Bubble'
+    ])
+
+    const Text = k.add([
+        k.text('', {
+            size: 100,
+            width: 800,
+            align: "center",
+            font: "alagard",
+        }),
+        k.pos(Bubble.pos),
+        k.anchor("center"),
+        k.color(0, 0, 0),
+        k.scale(0.5),
+        k.z(3)
+    ])
+
+    const circle = k.add([
+        k.rect(100, 70, { radius: 50 }),
+        k.pos(Bubble.pos.x + 520, Bubble.pos.y + 40),
+        k.anchor('center'),
+        k.color(113, 153, 191),
+        k.opacity(0.9),
+        k.area(),
+        'circle'
+    ])
+
+
+    const BubbleInstruction = k.add([
+        k.text("↵", {
+            size: 50,
+            font: "sans-serif",
+        }),
+        k.pos(circle.pos.x, circle.pos.y + 5),
+        k.anchor("center"),
+        k.color(0, 0, 0),
+        k.z(3),
+        k.area(),
+        'BubbleInstruction'
+    ])
+
+    k.onKeyPress('enter', ()=> {
+        	// Cycle through the dialogs
+	curDialog = (curDialog + 1) % dialog.length
+	updateDialog()
+
+})
+
+// Update the on screen sprite & text
+function updateDialog() {
+
+	const  [char,dialogs] = CatOrDragonDialog[curDialog]
+    dragon.use(k.sprite(char))
+	// Update the dialog text
+	Text.text = dialogs
+
+}
+updateDialog()
+// k.wait(6, () => {
+//     k.destroy(Bubble)
+//     k.destroy(Text)
+//     k.destroy(BubbleInstruction)
+//     k.destroy(circle)
+// })
+    }
         // NPC
         // --- DRAGON --- 
         const dragon = k.add([
@@ -284,9 +389,12 @@ k.scene("game", ({ levelIndex }) => {
         dragon.play('idle')
 
         cat.onCollide("dragon", () => {
-
-        })
-
+            dragon.flipX = true
+            // // catDialog()
+            // k.wait(4,() =>{
+            //     catDragonDialog()
+            // })
+                    })
         // --- BAT ---
         const bat = k.add([
             k.sprite('bat'),
@@ -535,22 +643,22 @@ start()
 
 
 
-//function that displays or hides the elements.
 // function toggleSpeechBubble() {
-//     if (speechBubble.pos.x < 0) {
-//         speechBubble.pos = vec2(200, height()/2-30);
-//         speechText.pos = vec2(200, height()/2-30);  // Align text with bubble
-//         triangleVisible = true;;
-//         speechBubbleInstructionBubble.pos = vec2(299, height()/2-13);
-//         speechBubbleInstruction.pos = vec2(299, height()/2-12);
+//     if (Bubble.pos.x < 0) {
+//         Bubble.pos = k.vec2(200, k.height()/2-30)
+//         // speechText.pos = k.vec2(200, k.height()/2-30)  // Align text with bubble
+//         triangleVisible = true
+//         BubbleInstruction.pos = k.vec2(299, k.height()/2-13)
+//         BubbleInstruction.pos = k.vec2(299, k.height()/2-12)
 //     } else {
-//         speechBubble.pos = vec2(-100, -100);
-//         speechText.pos = vec2(-100, -100);  // Hide text with bubble
+//         Bubble.pos = k.vec2(-100, -100)
+//         // speechText.pos = k.vec2(-100, -100)  // Hide text with bubble
 //         triangleVisible = false;
-//         speechBubbleInstructionBubble.pos = vec2(-100, -100);
-//         speechBubbleInstruction.pos = vec2(-100, -100);
+//         BubbleInstruction.pos = k.vec2(-100, -100)
+//         BubbleInstruction.pos = k.vec2(-100, -100)
 //     }
 // }
+// toggleSpeechBubble()
 
 </script>
 
