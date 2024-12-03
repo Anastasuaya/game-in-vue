@@ -48,7 +48,8 @@ export const getSprites = (k:KaboomCtx)=> {
       sliceY: 5,
       anims: {
           idle: {from: 0, to: 7, loop: true },
-          walk: {from: 8, to: 15, loop: true}
+          walk: {from: 8, to: 15, loop: true},
+          attack: {from: 16, to:21, loop: true},
       }
   })
   

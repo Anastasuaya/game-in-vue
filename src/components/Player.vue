@@ -156,19 +156,40 @@ k.scene("game", ({ levelIndex }) => {
     //--- LEVELID 0 ---
 
     // --- ДИАЛОГИ ---
-    const dialogs = [
+    type Dialog = {
+        speaker: string,
+        text: string,
+    }
+
+    let dialogs = [] as Dialog[]
+    let curDialog = 0
+
+    const catDialogs = [
         { speaker: 'Кот', text: 'Где я?' },
         { speaker: 'Кот', text: 'Наверное, нужно осмотреться' },
+    ]
+    const dragonDialogs = [
         { speaker: 'Кот', text: 'Кто ты?' },
         { speaker: 'Неизвестный', text: 'Я злой и могучий дракон!' },
         { speaker: 'Дракон', text: '*рычание*' },
     ]
 
-    let curDialog = 0
-    let isInDragonDialog = false
+    // let isInDragonDialog = false
 
+    let Bubble = undefined as any;
+    let circle = undefined as any;
+    let BubbleInstruction = undefined as any;
+    let Text = undefined as any;
+    
     function CreateDialog() {
-        const Bubble = k.add([
+        
+        if (curDialog >= dialogs.length) {
+            dialogs = []
+            curDialog = 0
+            return
+        }
+
+        Bubble = k.add([
             k.rect(k.width() - 800, 120, { radius: 32 }),
             k.pos(k.center().x, k.height() - 90),
             k.anchor('center'),
@@ -178,7 +199,7 @@ k.scene("game", ({ levelIndex }) => {
             // k.area(),
             'Bubble'
         ])
-        const circle = k.add([
+        circle = k.add([
             k.rect(100, 70, { radius: 50 }),
             k.pos(Bubble.pos.x + 520, Bubble.pos.y + 40),
             k.anchor('center'),
@@ -187,7 +208,7 @@ k.scene("game", ({ levelIndex }) => {
             k.area(),
             'circle'
         ])
-        const BubbleInstruction = k.add([
+        BubbleInstruction = k.add([
             k.text("↵", {
                 size: 50,
                 font: "sans-serif",
@@ -199,47 +220,45 @@ k.scene("game", ({ levelIndex }) => {
             k.area(),
             'BubbleInstruction'
         ])
-
-        k.wait(4, () => {
-            k.destroy(Bubble)
-            k.destroy(circle)
-            k.destroy(BubbleInstruction)
+        Text = k.add([
+            k.text('', {
+                size: 100,
+                width: 900,
+                align: "center",
+                font: "alagard",
+            }),
+            k.pos(k.center().x, k.height() - 90),
+            k.anchor("center"),
+            k.color(0, 0, 0),
+            k.scale(0.5),
+            k.z(3)
+        ])
+            
+        const dialog = dialogs[curDialog]
+        if (Text) Text.text = `${dialog.speaker}: ${dialog.text}`
+        curDialog++
+    
+        k.wait(5, ()=>{
+            updateDialog()
         })
+
     }
-
-    const Text = k.add([
-        k.text('', {
-            size: 100,
-            width: 900,
-            align: "center",
-            font: "alagard",
-        }),
-        k.pos(k.center().x, k.height() - 90),
-        k.anchor("center"),
-        k.color(0, 0, 0),
-        k.scale(0.5),
-        k.z(3)
-    ])
-
+    
     function updateDialog() {
-        if (isInDragonDialog && curDialog >= 3) {
-        curDialog++
-    } else if (!isInDragonDialog && curDialog < 2) {
-        curDialog++
+        k.destroy(Bubble)
+        k.destroy(circle)
+        k.destroy(BubbleInstruction)
+        k.destroy(Text)
+        CreateDialog()
     }
-        if (curDialog < dialogs.length) {
-            const dialog = dialogs[curDialog]
-            Text.text = `${dialog.speaker}: ${dialog.text}`
-            curDialog++
-        }
 
-        k.wait(3.9, () => {
-            k.destroy(Text)
+
+
+    k.onKeyRelease('enter', () => {
+        k.wait(.2, ()=>{
+            updateDialog()
         })
-
-
-    }
-
+    })
 
 
     // ------------------------------------------------------------------------------------
@@ -262,9 +281,8 @@ k.scene("game", ({ levelIndex }) => {
                     cat.play('idleR')
                 }, 1000)
                 k.wait(1.5, () => {
-                    curDialog = 0
+                    dialogs = catDialogs
                     CreateDialog()
-                    k.onKeyPress('enter', updateDialog)
                 })
             }
         })
@@ -285,10 +303,9 @@ k.scene("game", ({ levelIndex }) => {
 
         cat.onCollide("dragon", () => {
             dragon.flipX = true
-            isInDragonDialog = true
-            curDialog = 3
-                    CreateDialog()
-                    k.onKeyPress('enter', updateDialog)
+            dialogs = dragonDialogs
+            CreateDialog()
+            
         })
 
         // --- BAT ---
@@ -358,18 +375,72 @@ k.scene("game", ({ levelIndex }) => {
         })
 
         // --- COBRA ---
-        // const cobra = k.add([
-        // k.sprite('cobra'),
-        //     k.pos(200,400),
-        //     k.scale(2.5),
-        //     k.body(),
-        //     k.area(),
-        //     k.state('move', ['idle', 'walk']),
-        //     'cobra'
-        // ])
-        // cobra.play('idle')
-    }
+        const cobra = k.add([
+        k.sprite('cobra'),
+            k.pos(200,400),
+            k.scale(2.5),
+            k.body(),
+            k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
+            k.state('move', ['idle', 'walk', 'attack']),
+            'cobra'
+        ])
+        cobra.play('idle')
 
+        cobra.onStateEnter("idle", async () => {
+        await k.wait(0.5)
+        cobra.enterState("attack")
+    })
+
+const ENEMY_SPEED = 160
+const BULLET_SPEED = 800
+
+    cobra.onStateEnter("attack", async () => {
+
+if (cat.exists()) {
+
+    const dir = cat.pos.sub(cobra.pos).unit()
+
+    k.add([
+        k.pos(cobra.pos),
+        k.move(dir, BULLET_SPEED),
+        k.rect(12, 12),
+        k.area(),
+        k.offscreen({ destroy: true }),
+        k.anchor("center"),
+        k.color(k.BLUE),
+        "bullet",
+    ])
+
+}
+
+await k.wait(1)
+cobra.enterState("move")
+
+})
+
+cobra.onStateEnter("move", async () => {
+await k.wait(2)
+cobra.enterState("idle")
+})
+
+cobra.onStateUpdate("move", () => {
+if (!cat.exists()) return
+const dir = cat.pos.sub(cobra.pos).unit()
+cobra.move(dir.scale(ENEMY_SPEED))
+})
+
+// Taking a bullet makes us disappear
+cat.onCollide("bullet", (bullet) => {
+k.destroy(bullet)
+k.destroy(cat)
+k.addKaboom(bullet.pos)
+})
+
+
+
+
+
+    }
 
     //--- LEVELID TWO---
     if (levelIndex === 2) {
@@ -435,7 +506,7 @@ k.scene("game", ({ levelIndex }) => {
 
 function start() {
     k.go("game", {
-        levelIndex: 0,
+        levelIndex: 1,
         score: 0,
         lives: 3,
     })
@@ -444,117 +515,6 @@ function start() {
 start()
 
 
-
-// --- ДИАЛОГИ levelID=0 ---
-// const dialogs = [
-//     "Sorcière, la forêt murmure d'un danger...",
-//     "...une plante envahissante nommée[green] Ambroisie[/green]...",
-//     "Elle ne devrait pas se trouver ici.",
-//     "Les plantes envahissantes comme[green] Ambroisie[/green] nuisent à la forêt...",
-//     " étouffant la vie de nos espèces natives.",
-//     "Sorcière, je t'en supplie, débarrasse-nous-en!",
-//     "Le temps presse et la forêt souffre."
-// ];
-
-
-// let curDialog = 0;
-
-// Speech Bubble
-// let speechBubble = k.add([
-//     k.rect(200, 36, { radius: 8 }),
-//     k.pos(-100, -100),
-//     k.anchor("center"),
-//     k.color(0, 0, 0),
-//     k.opacity(0.9),
-//     k.area(),
-//     "speechBubble"
-// ]);
-
-// //speech bubble triangle
-// let triangleVisible = false;
-
-// function drawSpeechBubbleTriangle() {
-//     if (triangleVisible) {
-//         drawTriangle({
-//             p1: k.vec2(0, 0),
-//             p2: k.vec2(20, 12),
-//             p3: k.vec2(17, 0),
-//             pos: k.vec2(210, height()/2-12),
-//             color: rgb(0, 0, 0),
-//             opacity: 0.9,
-//         });
-//     }
-// }
-
-// onDraw(() => {
-//     drawSpeechBubbleTriangle();
-// });
-
-
-
-// //speech bubble ↵ instruction
-// let speechBubbleInstruction = add([
-//     text("↵", {
-//         size: 10,
-//         font: "sans-serif",
-//     }),
-//     pos(-100, -100),
-//     anchor("center"),
-//     color(0, 0, 0),
-//     z(3),
-//     area(),
-// ]);
-
-// //speech bubble ↵ instruction bubble
-// let speechBubbleInstructionBubble = add([
-//     rect(10, 10, { radius: 8 }),
-//     pos(-100, -100),
-//     anchor("center"),
-//     color(255, 255, 255),
-//     z(2),
-//     area(),
-// ]);
-
-
-
-
-// // Text inside the Speech Bubble
-// const speechText = add([
-//     text(dialogs[curDialog], {
-//         size: 40,
-//         width: 700,
-//         align: "center",
-//         font: "alagard",
-//         styles: {
-//             "green": (idx, ch) => ({
-//                 color: rgb(79, 152, 84),
-//             }),
-//         }
-//     }),
-//     pos(speechBubble.pos.x, speechBubble.pos.y),
-//     anchor("center"),
-//     color(255, 255, 255),
-//     scale(0.25)
-// ])
-
-
-
-// function toggleSpeechBubble() {
-//     if (Bubble.pos.x < 0) {
-//         Bubble.pos = k.vec2(200, k.height()/2-30)
-//         // speechText.pos = k.vec2(200, k.height()/2-30)  // Align text with bubble
-//         triangleVisible = true
-//         BubbleInstruction.pos = k.vec2(299, k.height()/2-13)
-//         BubbleInstruction.pos = k.vec2(299, k.height()/2-12)
-//     } else {
-//         Bubble.pos = k.vec2(-100, -100)
-//         // speechText.pos = k.vec2(-100, -100)  // Hide text with bubble
-//         triangleVisible = false;
-//         BubbleInstruction.pos = k.vec2(-100, -100)
-//         BubbleInstruction.pos = k.vec2(-100, -100)
-//     }
-// }
-// toggleSpeechBubble()
 
 </script>
 
