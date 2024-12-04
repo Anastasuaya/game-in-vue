@@ -91,7 +91,7 @@ k.scene("game", ({ levelIndex }) => {
     let fall = false
 
     k.onKeyDown("left", () => {
-        if (props.isGameStarted) {
+        if (props.isGameStarted && !isDialogActive) {
             cat.move(-140, 0)
             if (!left) {
                 cat.play('SideL')
@@ -105,7 +105,7 @@ k.scene("game", ({ levelIndex }) => {
     })
 
     k.onKeyDown("up", () => {
-        if (props.isGameStarted) {
+        if (props.isGameStarted && !isDialogActive) {
             cat.move(0, -140)
             if (!up) {
                 cat.play('Back')
@@ -119,7 +119,7 @@ k.scene("game", ({ levelIndex }) => {
     })
 
     k.onKeyDown("right", () => {
-        if (props.isGameStarted) {
+        if (props.isGameStarted && !isDialogActive) {
             cat.move(140, 0)
             if (!right) {
                 cat.play('SideR')
@@ -133,7 +133,7 @@ k.scene("game", ({ levelIndex }) => {
     })
 
     k.onKeyDown("down", () => {
-        if (props.isGameStarted) {
+        if (props.isGameStarted && !isDialogActive) {
             cat.move(0, 140)
             if (!down) {
                 cat.play('Forward')
@@ -152,7 +152,7 @@ k.scene("game", ({ levelIndex }) => {
 
 
     // --- LEVELS ---
-    //-------------------------------------------
+    
     //--- LEVELID 0 ---
 
     // --- ДИАЛОГИ ---
@@ -161,6 +161,7 @@ k.scene("game", ({ levelIndex }) => {
         text: string,
     }
 
+    let isDialogActive = false
     let dialogs = [] as Dialog[]
     let curDialog = 0
 
@@ -174,8 +175,6 @@ k.scene("game", ({ levelIndex }) => {
         { speaker: 'Дракон', text: '*рычание*' },
     ]
 
-    // let isInDragonDialog = false
-
     let Bubble = undefined as any;
     let circle = undefined as any;
     let BubbleInstruction = undefined as any;
@@ -186,8 +185,11 @@ k.scene("game", ({ levelIndex }) => {
         if (curDialog >= dialogs.length) {
             dialogs = []
             curDialog = 0
+            endDialog()
             return
         }
+
+        isDialogActive = true
 
         Bubble = k.add([
             k.rect(k.width() - 800, 120, { radius: 32 }),
@@ -223,7 +225,7 @@ k.scene("game", ({ levelIndex }) => {
         Text = k.add([
             k.text('', {
                 size: 100,
-                width: 900,
+                width: 1000,
                 align: "center",
                 font: "alagard",
             }),
@@ -252,12 +254,18 @@ k.scene("game", ({ levelIndex }) => {
         CreateDialog()
     }
 
+    function endDialog(){
+        isDialogActive = false
+    }
 
 
     k.onKeyRelease('enter', () => {
-        k.wait(.2, ()=>{
-            updateDialog()
-        })
+        if(isDialogActive){
+
+            k.wait(.2, ()=>{
+                updateDialog()
+            })
+        }
     })
 
 
@@ -506,7 +514,7 @@ k.addKaboom(bullet.pos)
 
 function start() {
     k.go("game", {
-        levelIndex: 1,
+        levelIndex: 0,
         score: 0,
         lives: 3,
     })
