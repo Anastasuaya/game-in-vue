@@ -310,11 +310,29 @@ k.scene("game", ({ levelIndex }) => {
         dragon.play('idle')
 
         cat.onCollide("dragon", () => {
-            dragon.flipX = true
-            dialogs = dragonDialogs
-            CreateDialog()
-            
-        })
+            dragon.flipX = true;
+    const buttonText = k.add([
+        k.text("Нажмите E", {
+            size: 30,
+            font: "sans-serif",
+        }),
+        k.pos(k.center().x, k.height() - 100),
+        k.anchor("center"),
+        k.color(255, 255, 255),
+        // k.z(10),
+        'buttonText'
+    ])
+
+    k.onKeyPress('e', () => {
+        k.destroy(buttonText)
+
+        dialogs = dragonDialogs
+        CreateDialog()
+    })
+    k.wait(5, () => {
+        k.destroy(buttonText)
+    })
+})
 
         // --- BAT ---
         const bat = k.add([
