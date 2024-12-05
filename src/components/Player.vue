@@ -149,7 +149,7 @@ k.scene("game", ({ levelIndex }) => {
         }
 
     })
-    
+
     // ------------------------------------------------------------------------------------
 
     // --- ДИАЛОГИ ---
@@ -286,7 +286,7 @@ k.scene("game", ({ levelIndex }) => {
                 fallingCat.play("fall")
                 k.tween(fallingCat.pos, k.vec2(300, 150), 1, (p) => {
                     fallingCat.pos = p
-                    // k.shake(1)
+                    k.shake(1)
                 })
                 setTimeout(() => {
                     cat.pos = k.vec2(300, 150)

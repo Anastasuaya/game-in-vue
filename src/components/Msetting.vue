@@ -27,7 +27,8 @@ const close = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url(UI/background.png);
+  /* background-image: url(UI/background.png); */
+  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;

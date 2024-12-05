@@ -3,6 +3,7 @@
         <div class="modalCont">
             <h2>Help</h2>
             <p>Use arrow for character control</p>
+            <p>Press 'e' for start dialogs</p>
             <button @click="close">close</button>
         </div>
     </div>
@@ -27,7 +28,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url(UI/background.png);
+      /* background-image: url(UI/background.png); */
+      background-color: black;
       display: flex;
       justify-content: center;
       align-items: center;
