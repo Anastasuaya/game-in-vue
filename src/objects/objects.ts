@@ -104,9 +104,9 @@ k.loadSpriteAtlas('map/base_tileset.png', {
      'height': 32, 
   },
   'obstacle': {
-      'x': 200,
+      'x': 160,
       'y': 240,
-      'width': 118,
+      'width': 125,
       'height': 32, 
   },
 

@@ -1,7 +1,7 @@
 import { KaboomCtx } from 'kaboom';
 export const getSprites = (k:KaboomCtx)=> {
 
-    k.loadFont('agat', 'UI/agat-8.ttf')
+
     
   k.loadSprite('cat', 'sprites/cat_sprite.png', {
     sliceX: 4,

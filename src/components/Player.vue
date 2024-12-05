@@ -16,6 +16,7 @@ console.log(tilesForMap)
 getSprites(k)
 getTiles(k)
 
+k.loadFont('agat', 'UI/agat-8.ttf')
 
 // --- SCENE ---
 k.scene("game", ({ levelIndex }) => {
@@ -175,6 +176,11 @@ k.scene("game", ({ levelIndex }) => {
         { speaker: 'Дракон', text: '*рычание*' },
     ]
 
+    const obstacleDialog = [
+    { speaker: 'Кот', text: 'Как мне пройти дальше?' },
+    { speaker: 'Кот', text: 'Может,можно сдвинуть это?' },
+    ]
+
     let Bubble = undefined as any;
     let circle = undefined as any;
     let BubbleInstruction = undefined as any;
@@ -281,6 +287,7 @@ k.scene("game", ({ levelIndex }) => {
                 fallingCat.play("fall")
                 k.tween(fallingCat.pos, k.vec2(300, 150), 1, (p) => {
                     fallingCat.pos = p
+                    // k.shake(1)
                 })
                 setTimeout(() => {
                     cat.pos = k.vec2(300, 150)
@@ -310,27 +317,40 @@ k.scene("game", ({ levelIndex }) => {
         dragon.play('idle')
 
         cat.onCollide("dragon", () => {
-            dragon.flipX = true;
+            dragon.flipX = true
     const buttonText = k.add([
-        k.text("Нажмите E", {
-            size: 30,
+        k.text("E", {
+            size: 15,
             font: "sans-serif",
         }),
-        k.pos(k.center().x, k.height() - 100),
+        k.pos(dragon.pos.x +30, dragon.pos.y+25),
         k.anchor("center"),
         k.color(255, 255, 255),
-        // k.z(10),
+        k.z(1),
         'buttonText'
     ])
 
+   let circle1 = k.add([
+            k.rect(30, 30, { radius: 50 }),
+            k.pos(dragon.pos.x +30, dragon.pos.y+25),
+            k.anchor('center'),
+            k.color(113, 153, 191),
+            k.outline(2),
+            k.opacity(0.9),
+            k.area(),
+            'circle'
+        ])
+
     k.onKeyPress('e', () => {
         k.destroy(buttonText)
+        k.destroy(circle1)
 
         dialogs = dragonDialogs
         CreateDialog()
     })
-    k.wait(5, () => {
+    k.wait(3, () => {
         k.destroy(buttonText)
+        k.destroy(circle1)
     })
 })
 
@@ -375,11 +395,16 @@ k.scene("game", ({ levelIndex }) => {
             k.sprite('obstacle'),
             // k.rect(118, 32), 
             k.pos(200, 400),
-            // k.body({mass: 7}),
+            k.body({mass: 7}),
             k.area(),
+            'obstacle'
         ])
     }
 
+    cat.onCollide('obstacle', () => {
+        dialogs = obstacleDialog
+        CreateDialog()
+    })
 
 
     cat.onCollide('ladder_lvlTwo', () => {
@@ -455,7 +480,7 @@ const dir = cat.pos.sub(cobra.pos).unit()
 cobra.move(dir.scale(ENEMY_SPEED))
 })
 
-// Taking a bullet makes us disappear
+
 cat.onCollide("bullet", (bullet) => {
 k.destroy(bullet)
 k.destroy(cat)
