@@ -40,7 +40,7 @@ const opHelp = () => {
   right: 0;
   bottom: 0;
   /* background-image: url(UI/background.png); */
-  background-color: black;
+  /* background-color: black; */
   display: flex;
   justify-content: center;
   align-items: center;

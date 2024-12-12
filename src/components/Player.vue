@@ -61,6 +61,32 @@ k.scene("game", ({ levelIndex }) => {
     //     }
     // })
 
+        
+    // const tint = k.add([
+    //                 k.rect(k.width(), k.height()+50),
+    //                 k.pos(-300,-300),
+    //                 k.color(0,0,0),
+    //                 k.opacity(0.1),
+    //                 k.area(),
+    //                 k.z(0),
+    //                 k.anchor("topleft"),
+    //             ])
+        
+        
+    //             function toggleTint() {
+    //                 if (tint.pos.y < 0) {
+    //                     tint.pos = k.vec2(0,-50); 
+        
+    //                 } else {
+                    
+    //                     tint.pos = k.vec2(-300, -300); 
+        
+    //                 }
+    //             }
+        
+
+
+
     // --- cat ---
     const cat_HEALTH = 200;
     let cat = k.add([
@@ -83,6 +109,134 @@ k.scene("game", ({ levelIndex }) => {
     ])
     cat.play('idle')
 
+    const BULLET_SPEED = 100
+    const dir = cat.pos.sub(cat.pos).unit()
+
+
+        function handleout() {
+	return {
+		id: "handleout",
+		require: [ "pos" ],
+		update() {
+			const spos = this.screenPos()
+			if (
+				spos.x < 0 ||
+				spos.x > k.width() ||
+				spos.y < 0 ||
+				spos.y > k.height()
+			) {
+				// triggers a custom event when out
+				this.trigger("out")
+			}
+		},
+	}
+}
+
+const SPEED = 640
+
+function shoot() {
+	const center = k.vec2(k.width() / 2, k.height() / 2)
+	const mpos = k.mousePos()
+    k.add([
+			k.pos(cat.pos),
+			k.move(dir, BULLET_SPEED),
+			k.rect(12, 12),
+			k.area(),
+			k.offscreen({ destroy: true }),
+			k.anchor("center"),
+			k.color(k.BLUE),
+			"bullet",
+            { dir: mpos.sub(center).unit() },
+		])
+
+
+k.onKeyPress("space", shoot)
+k.onClick(shoot)
+
+k.onUpdate("bean", (m) => {
+	m.move(m.dir.scale(SPEED))
+})
+
+// binds a custom event "out" to tag group "bean"
+k.on("out", "bean", (m) => {
+	k.addKaboom(m.pos)
+	k.destroy(m)
+})
+}
+    if (levelIndex == 1 || levelIndex == 2 || levelIndex == 4 ) { // Not useful for now, but when it will be, the OR opperator is -->  (levelId == 1 || levelId == 4)
+                    cat.onHurt(() => {
+                        // catHealthbar.set(cat.hp())
+                        k.shake(10)
+                        if (cat.hp() === 180) {
+                        }
+                        if (cat.hp() === 160) {
+                        }
+                        if (cat.hp() === 140) {
+                        }
+                        if (cat.hp() === 120) {
+                        }
+                        if (cat.hp() === 100) {
+                        }
+                        if (cat.hp() === 80) {
+
+                        }
+                        if (cat.hp() === 60) {
+                        }
+                        if (cat.hp() === 40) {
+
+                        }
+                        if (cat.hp() === 20) {
+
+                        }
+                    
+                    })
+    }
+
+    function healthBar(){
+
+const Healthbar = cat.add([
+            k.rect(30, 3),
+            k.pos(cat.pos.x -300, cat.pos.y -250),
+            k.color(20, 200,0),
+            // k.anchor("left"),
+            // k.fixed(),
+            k.z(2),
+            k.outline(1),
+            
+            {
+                max: cat_HEALTH,
+                set(hp: any) {
+                    this.width = 30 * hp / this.max
+                },
+            },
+            
+        ])
+        const HealthbarGreyOutline = cat.add([
+            k.rect(30, 3),
+            k.pos(cat.pos.x -300, cat.pos.y -250),
+            k.color(200, 200, 200),
+            // k.anchor("left"),
+            // k.fixed(),
+            k.z(1),
+            k.outline(1),
+            {
+                max: cat_HEALTH,
+                set(hp: any) {
+                    this.width = 30 * hp / this.max
+                },
+            },
+        ])
+
+}  
+function colorizeHealthBar(healthBar: any) {
+    if (healthBar.width < 200) {
+      healthBar.use(k.color(250, 150, 0));
+    }
+
+    if (healthBar.width < 100) {
+      healthBar.use(k.color(200, 0, 0));
+    }
+  }
     // --- УПРАВЛЕНИЕ ИГРОКОМ ---
 
     let left = false
@@ -271,7 +425,6 @@ k.scene("game", ({ levelIndex }) => {
         }
     })
 
-
     // ------------------------------------------------------------------------------------
 
     // --- LEVELS ---
@@ -424,74 +577,62 @@ k.scene("game", ({ levelIndex }) => {
                 k.go("game", { levelIndex: levelIndex })
             }
         })
+  
+        healthBar()
 
-        // --- COBRA ---
-        const cobra = k.add([
-        k.sprite('cobra'),
-            k.pos(200,400),
-            k.scale(2.5),
-            k.body(),
-            k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
-            k.state('move', ['idle', 'walk', 'attack']),
-            'cobra'
-        ])
-        cobra.play('idle')
+// --- COBRA ---
+const cobra = k.add([
+    k.sprite('cobra'),
+    k.pos(200, 400),
+    k.scale(2.5),
+    k.body(),
+    k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
+    k.state('move', ['idle', 'attack', 'move']),
+    'cobra'
+])
 
-        cobra.onStateEnter("idle", async () => {
-        await k.wait(0.5)
-        cobra.enterState("attack")
-    })
+cobra.play('idle')
+const cobra_SPEED = 120
 
-const ENEMY_SPEED = 160
-const BULLET_SPEED = 800
 
-    cobra.onStateEnter("attack", async () => {
+cobra.onStateEnter("idle", async () => {
+    await k.wait(0.5)
+    cobra.enterState("move")
+})
 
-if (cat.exists()) {
-
-    const dir = cat.pos.sub(cobra.pos).unit()
-
-    k.add([
-        k.pos(cobra.pos),
-        k.move(dir, BULLET_SPEED),
-        k.rect(12, 12),
-        k.area(),
-        k.offscreen({ destroy: true }),
-        k.anchor("center"),
-        k.color(k.BLUE),
-        "bullet",
-    ])
-
-}
-
-await k.wait(1)
-cobra.enterState("move")
-
+cobra.onStateEnter("attack", async () => {
+    if (cat.exists()) {
+            // Логика атаки кота
+            cobra.play('attack')
+            cat.color = k.RED
+            await k.wait(0.5)
+            cat.color = k.WHITE
+            
+        }
+        
+    await k.wait(.5) // Ждём перед возвращением в состояние движения
+    cobra.enterState("move")
 })
 
 cobra.onStateEnter("move", async () => {
-await k.wait(2)
-cobra.enterState("idle")
+    await k.wait(2) // Ждём 2 секунды прежде, чем продолжить
+    // cobra.enterState("idle")
+    cobra.play('idle') // Переходим в состояние ожидания
 })
 
-cobra.onStateUpdate("move", () => {
-if (!cat.exists()) return
-const dir = cat.pos.sub(cobra.pos).unit()
-cobra.move(dir.scale(ENEMY_SPEED))
-})
-
-
-cat.onCollide("bullet", (bullet) => {
-k.destroy(bullet)
-k.destroy(cat)
-k.addKaboom(bullet.pos)
-})
-
-
-
-
-
+cobra.onStateUpdate("move", async () => {
+    if (!cat.exists()) return
+    const dir = cat.pos.sub(cobra.pos).unit()
+    cobra.move(dir.scale(cobra_SPEED))
+    
+    // Если кобра близко к коту, атакуем
+    const distanceToCat = cobra.pos.dist(cat.pos)
+    if (distanceToCat < 10) { // Радиус атаки
+        cobra.enterState("attack") // Переходим в состояние атаки
     }
+})
+
+}
 
     // ------------------------------------------------------------------------------------
     //--- LEVELID TWO---
@@ -503,7 +644,7 @@ k.addKaboom(bullet.pos)
                 k.go("game", { levelIndex: levelIndex })
             }
         })
-
+        healthBar()
         // --- FOX ---
         // const fox = k.add([
         //     k.sprite('fox'),
@@ -527,6 +668,7 @@ k.addKaboom(bullet.pos)
                 k.go("game", { levelIndex: levelIndex })
             }
         })
+        healthBar()
     }
     // --- LEVELID FOUR ---
     if (levelIndex === 4) {
@@ -537,6 +679,7 @@ k.addKaboom(bullet.pos)
                 k.go("game", { levelIndex: levelIndex })
             }
         })
+        healthBar()
     }
 
     // ------------------------------------------------------------------------------------
@@ -549,6 +692,7 @@ k.addKaboom(bullet.pos)
                 k.go("game", { levelIndex: levelIndex })
             }
         })
+        healthBar()
     }
 
     // ------------------------------------------------------------------------------------
@@ -560,7 +704,7 @@ k.addKaboom(bullet.pos)
 
 function start() {
     k.go("game", {
-        levelIndex: 0,
+        levelIndex: 1,
         score: 0,
         lives: 3,
     })

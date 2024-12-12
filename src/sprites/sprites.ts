@@ -27,6 +27,7 @@ export const getSprites = (k:KaboomCtx)=> {
 //     }
 //   }) 
   // --- НПС ---
+//   --- FOX---
   k.loadSprite('fox', 'sprites/Fox.png', {
       sliceX: 14,
       sliceY: 7,
@@ -36,7 +37,7 @@ export const getSprites = (k:KaboomCtx)=> {
           run: { from: 19 , to: 26 , loop: true},
       }
   })
-  
+//   --- BAT ---
   k.loadSprite('bat','sprites/Bat.png', {
       sliceX: 5,
       sliceY: 3,
@@ -45,16 +46,17 @@ export const getSprites = (k:KaboomCtx)=> {
       }
   })
   
+//   --- COBRA ---
   k.loadSprite('cobra', 'sprites/Cobra.png', {
       sliceX: 8,
       sliceY: 5,
       anims: {
           idle: {from: 0, to: 7, loop: true },
           walk: {from: 8, to: 15, loop: true},
-          attack: {from: 16, to:21, loop: true},
+          attack: {from: 16, to:21, loop: false},
       }
   })
-  
+//   --- DRAGON ---
   k.loadSprite('dragon', 'sprites/Dragon.png', {
       sliceX: 8,
       sliceY: 9,
