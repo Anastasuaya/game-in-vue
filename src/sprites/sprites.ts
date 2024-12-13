@@ -65,4 +65,13 @@ export const getSprites = (k:KaboomCtx)=> {
           walk: {from: 8, to: 14, loop: true},
       }
   })
+
+// --- EXPLOSION ---
+k.loadSprite('purpleEffect', 'sprites/Effect_purple.png', {
+  sliceX: 5,
+  sliceY: 24,
+  anims: {
+    explosion: {from: 30, to: 34, loop: false}
+  }
+})
 }

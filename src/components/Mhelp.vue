@@ -4,6 +4,7 @@
             <h2>Help</h2>
             <p>Use arrow for character control</p>
             <p>Press 'e' for start dialogs</p>
+            <p>Use ЛКМ or 'space' for attack</p>
             <button @click="close">close</button>
         </div>
     </div>

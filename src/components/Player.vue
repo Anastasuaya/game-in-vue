@@ -110,59 +110,62 @@ k.scene("game", ({ levelIndex }) => {
     cat.play('idle')
 
     const BULLET_SPEED = 100
-    const dir = cat.pos.sub(cat.pos).unit()
 
-
-        function handleout() {
-	return {
-		id: "handleout",
-		require: [ "pos" ],
-		update() {
-			const spos = this.screenPos()
-			if (
-				spos.x < 0 ||
-				spos.x > k.width() ||
-				spos.y < 0 ||
-				spos.y > k.height()
-			) {
-				// triggers a custom event when out
-				this.trigger("out")
-			}
-		},
-	}
+function handleOut() {
+    return {
+        id: "handleout",
+        require: ["pos"],
+        update() {
+            const spos = this.screenPos()
+            if (
+                spos.x < 0 ||
+                spos.x > k.width() ||
+                spos.y < 0 ||
+                spos.y > k.height()
+            ) {
+                this.trigger("out")
+            }
+        },
+    }
 }
 
 const SPEED = 640
 
+// Создаем функцию для стрельбы
 function shoot() {
-	const center = k.vec2(k.width() / 2, k.height() / 2)
-	const mpos = k.mousePos()
-    k.add([
-			k.pos(cat.pos),
-			k.move(dir, BULLET_SPEED),
-			k.rect(12, 12),
-			k.area(),
-			k.offscreen({ destroy: true }),
-			k.anchor("center"),
-			k.color(k.BLUE),
-			"bullet",
-            { dir: mpos.sub(center).unit() },
-		])
+    const mpos = k.mousePos() // Позиция мыши
+    const dir = mpos.sub(cat.pos).unit() // Рассчитываем направление стрельбы
 
+
+     const bullet =   k.add([
+        k.pos(cat.pos.x + 20, cat.pos.y + 20),
+        k.move(dir, BULLET_SPEED),
+        k.rect(12, 12),
+        k.area(),
+        k.offscreen({ destroy: true }),
+        k.anchor("center"),
+        k.color(0, 153, 153),
+        "bullet",
+        { dir: dir }
+    ])
+}
 
 k.onKeyPress("space", shoot)
 k.onClick(shoot)
 
-k.onUpdate("bean", (m) => {
-	m.move(m.dir.scale(SPEED))
+k.onUpdate("bullet", (b) => {
+    b.move(b.dir.scale(BULLET_SPEED))
 })
 
-// binds a custom event "out" to tag group "bean"
-k.on("out", "bean", (m) => {
-	k.addKaboom(m.pos)
-	k.destroy(m)
+// связываем пользовательское событие "out" с тегом "bullet"
+k.on("out", "bullet", (bullet) => {
+    k.addKaboom(bullet.pos)
+    k.wait(.3, () => {
+        k.destroy(bullet) // уничтожаем пулю
+    })
 })
-}
+
+
     if (levelIndex == 1 || levelIndex == 2 || levelIndex == 4 ) { // Not useful for now, but when it will be, the OR opperator is -->  (levelId == 1 || levelId == 4)
                     cat.onHurt(() => {
                         // catHealthbar.set(cat.hp())
@@ -245,7 +248,7 @@ function colorizeHealthBar(healthBar: any) {
     let down = false
     let fall = false
 
-    k.onKeyDown("left", () => {
+    k.onKeyDown("left",  () => {
         if (props.isGameStarted && !isDialogActive) {
             cat.move(-140, 0)
             if (!left) {
@@ -594,7 +597,6 @@ const cobra = k.add([
 cobra.play('idle')
 const cobra_SPEED = 120
 
-
 cobra.onStateEnter("idle", async () => {
     await k.wait(0.5)
     cobra.enterState("move")
@@ -607,7 +609,7 @@ cobra.onStateEnter("attack", async () => {
             cat.color = k.RED
             await k.wait(0.5)
             cat.color = k.WHITE
-            
+
         }
         
     await k.wait(.5) // Ждём перед возвращением в состояние движения
@@ -631,7 +633,19 @@ cobra.onStateUpdate("move", async () => {
         cobra.enterState("attack") // Переходим в состояние атаки
     }
 })
+// let explosion = k.add([
+//     k.sprite('purpleEffect'),
+//     k.pos(cobra.pos),
+//     k.scale(2)
+// ])
+// explosion.play('explosion')
 
+cobra.onCollide('bullet', () => {
+    k.destroy(cobra)
+    k.shake(1)
+    k.addKaboom(cobra.pos.x, cobra.pos.y - 10)
+    // explosion.play('explosion')
+})
 }
 
     // ------------------------------------------------------------------------------------
