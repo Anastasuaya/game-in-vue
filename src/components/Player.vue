@@ -641,10 +641,14 @@ cobra.onStateUpdate("move", async () => {
 // explosion.play('explosion')
 
 cobra.onCollide('bullet', () => {
+        k.add([
+        k.sprite('purpleEffect'),
+        k.pos(cobra.pos.x ),
+        k.scale(2)
+    ]).play('explosion')
+
     k.destroy(cobra)
     k.shake(1)
-    k.addKaboom(cobra.pos.x, cobra.pos.y - 10)
-    // explosion.play('explosion')
 })
 }
 
