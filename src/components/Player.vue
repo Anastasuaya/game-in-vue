@@ -430,6 +430,36 @@ function colorizeHealthBar(healthBar: any) {
 
     // ------------------------------------------------------------------------------------
 
+const createBat = (x, y) => {
+    const bat = k.add([
+        k.sprite('bat'),
+        k.pos(x, y),
+        k.scale(2),
+        'bat',
+        k.body() // Добавление физического тела
+    ]);
+
+    const speed = 100;
+    let directionX = Math.random() < 0.5 ? 1 : -1;
+    let directionY = Math.random() < 0.5 ? 1 : -1;
+
+    
+        if (props.isGameStarted) {
+            // Движение летучей мыши
+            bat.move(directionX * speed, directionY * speed);
+
+            // Простейшая логика: если летучая мышь достигает краёв экрана,
+            // просто меняем направление
+            if (bat.pos.x < 250 || bat.pos.x > k.width() - 16) {
+                directionX = -directionX; // Меняем направление по оси X
+            }
+
+            if (bat.pos.y < 400 || bat.pos.y > k.height() - 16) {
+                directionY = -directionY; // Меняем направление по оси Y
+            }
+        }
+    }
+
     // --- LEVELS ---
     
     //--- LEVELID 0 ---
@@ -509,41 +539,9 @@ function colorizeHealthBar(healthBar: any) {
     })
 })
 
-        // --- BAT ---
-        const bat = k.add([
-            k.sprite('bat'),
-            k.pos(350, 300),
-            k.scale(2),
-            k.z(2),
-            'bat'
-        ])
-        bat.play('walk')
+createBat(350, 300) 
 
-        let speed = 100
-        let direction = 1
-        let yDirection = 1
-
-        k.onUpdate(() => {
-            if (props.isGameStarted) {
-                bat.pos.x += speed * direction * k.dt()
-                bat.pos.y += speed * yDirection * k.dt()
-                if (bat.pos.x > 500) {
-                    direction = -1
-                    bat.flipX = true
-                } else if (bat.pos.x < 200) {
-                    direction = 1
-                    bat.flipX = false
-                }
-                if (bat.pos.y > 300) {
-                    yDirection = -1
-                    bat.flipX = true
-                } else if (bat.pos.y < 250) {
-                    yDirection = 1
-                    bat.flipX = false
-                }
-            }
-        })
-
+  
 
         //--- OBSTACLES ---
         k.add([
@@ -722,7 +720,7 @@ cobra.onCollide('bullet', () => {
 
 function start() {
     k.go("game", {
-        levelIndex: 1,
+        levelIndex: 0,
         score: 0,
         lives: 3,
     })
