@@ -32,9 +32,12 @@ export const getSprites = (k:KaboomCtx)=> {
       sliceX: 14,
       sliceY: 7,
       anims: {
-          idle: {from: 0, to: 4, loop: false},
-          look: {from: 5, to: 18, loop: true},
-          run: { from: 19 , to: 26 , loop: true},
+          idle: {from: 0, to: 4, loop: true},
+          look: {from: 14, to: 27, loop: true},
+          run: { from: 28 , to: 35 , loop: true},
+          play: {from: 42, to: 52, loop: true},
+          fright: { from: 56, to: 60, loop: false},
+          sleep: { from: 70, to: 75, loop: true},
       }
   })
 //   --- BAT ---
@@ -74,4 +77,12 @@ k.loadSprite('purpleEffect', 'sprites/Effect_purple.png', {
     explosion: {from: 30, to: 35, loop: false}
   }
 })
+k.loadSprite('orangeEffect', 'sprites/Effect_orange.png', {
+  sliceX: 6,
+  sliceY: 24,
+  anims: {
+    explosion: {from: 15, to: 16, loop: true}
+  }
+})
+
 }

@@ -6,9 +6,9 @@ export const getTiles = (k:KaboomCtx)=>{
 k.loadSpriteAtlas('objects/Objects_blood.png', {
   'kid': {
       'x': 1,
-      'y': 1,
+      'y': 10,
       'width': 25,
-      'height': 55,
+      'height': 48,
       // sliceX: 1,
       // sliceY: 1
   },
@@ -110,5 +110,40 @@ k.loadSpriteAtlas('map/base_tileset.png', {
       'height': 32, 
   },
 
+})
+
+k.loadSpriteAtlas('objects/Dungeon_Tileset.png', {
+   'thorns': {
+      'x': 160,
+      'y':480,
+      'width':32,
+      'height':37,
+      'sliceX': 1,
+      'sliceY': 1,
+      anims: {
+         movement: {from: 5 , to: 3, speed: 3, loop: true},
+      }, 
+   },
+   'thorns1': {
+      'x': 130,
+      'y':480,
+      'width':32,
+      'height':37,
+   },
+   'thorns2': {
+      'x': 100,
+      'y':480,
+      'width':32,
+      'height':37,
+   }
+})
+
+k.loadSpriteAtlas('objects/Dungeon_Collectables.png', {
+   'healthPotion': {
+      'x': 30,
+      'y': 150,
+      'width':16,
+      'height':32,
+   }
 })
 }
