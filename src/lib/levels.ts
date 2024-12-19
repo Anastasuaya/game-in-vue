@@ -157,44 +157,52 @@ export const getLevels = (k:KaboomCtx)=>{
               k.sprite('wall-top'),
               k.pos(70,71),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           'd': () => [
               k.sprite('wall-topLeft'),
               k.pos(70,70),
+              'wall'
           ],
           'c': () => [
               k.sprite('wall-topRight'),
               k.pos(70,70),
+              'wall'
           ],
           'l': () => [
               k.sprite('wall-Left'),
               k.pos(100,70),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           'r': () => [
               k.sprite('wall-Right'),
               k.pos(70,70),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           'w': () => [
               k.sprite('wall-Bottom'),
               k.pos(70,69),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           'b': () => [
               k.sprite('wall-BotR'),
               k.pos(73,70),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           'a': () => [
               k.sprite('wall-BotL'),
               k.pos(100,70),
               k.area(),
+              'wall',
               k.body({isStatic:true})
           ],
           '0': () => [

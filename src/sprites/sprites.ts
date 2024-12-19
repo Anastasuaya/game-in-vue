@@ -74,7 +74,8 @@ k.loadSprite('purpleEffect', 'sprites/Effect_purple.png', {
   sliceX: 6,
   sliceY: 24,
   anims: {
-    explosion: {from: 30, to: 35, loop: false}
+    explosion: {from: 30, to: 35, loop: false},
+    spawn: {from: 78 , to: 83, loop: false}
   }
 })
 k.loadSprite('orangeEffect', 'sprites/Effect_orange.png', {

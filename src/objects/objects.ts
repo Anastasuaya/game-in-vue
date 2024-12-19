@@ -146,4 +146,15 @@ k.loadSpriteAtlas('objects/Dungeon_Collectables.png', {
       'height':32,
    }
 })
+
+k.loadSpriteAtlas('objects/Objects.png', {
+   'children': {
+      'x': 200,
+      'y': 370,
+      'sliceX': 1,
+      'sliceY': 1,
+      'width':64,
+      'height':64,
+   }
+})
 }
