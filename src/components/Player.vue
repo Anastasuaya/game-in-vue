@@ -434,10 +434,10 @@ function colorizeHealthBar(healthBar: any) {
     })
 
     // ------------------------------------------------------------------------------------
-    function createBat(){
+    function createBat(x,y){
         const bat = k.add([
             k.sprite('bat'),
-            k.pos(350, 300),
+            k.pos(x,y),
             k.scale(2),
             k.z(2),
             'bat'
@@ -549,7 +549,7 @@ function colorizeHealthBar(healthBar: any) {
     })
 })
 
-createBat() 
+createBat(400,350) 
 // const bat = k.add([
 //             k.sprite('bat'),
 //             k.pos(350, 300),
@@ -850,6 +850,35 @@ createBat()
         healthBar()    
         //ДОБАВИТЬ СЮДА ДЕРЕВО С ВОДОЙ
 
+        const three = k.add([
+            k.sprite('three'),
+            k.pos(250, 460),
+            k.scale(3),
+            k.z(3)
+        ])
+
+        cat.onCollide('lava', () => {
+            CreateDialog()
+        })
+
+        const elemental = k.add([
+            k.sprite('Fire_Elemental'),
+            k.pos(700,400),
+            k.area(),
+            k.body(),
+            k.scale(2),
+            'Fire_Elemental'
+        ])
+        elemental.play('idle')
+
+    const kid = k.add([
+    k.sprite('kid'),
+    k.pos(730,300),
+    k.body({isStatic: true}),
+    k.area(),
+    k.scale(2),
+])
+
     }
 
     // ------------------------------------------------------------------------------------
@@ -864,6 +893,11 @@ createBat()
             }
         })
         healthBar()
+
+        // скопировать змей
+        // добавить:
+        // - нпс
+        // - зелье/куриную ногу длявосстановления хп
     }
 
     // ------------------------------------------------------------------------------------
@@ -888,7 +922,7 @@ createBat()
 
 function start() {
     k.go("game", {
-        levelIndex: 0,
+        levelIndex: 3,
         score: 0,
         lives: 3,
     })

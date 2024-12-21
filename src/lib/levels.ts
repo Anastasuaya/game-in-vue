@@ -78,20 +78,20 @@ export const getLevels = (k:KaboomCtx)=>{
     "l          r",
     "l          r____ctttttttttd",
     "l          r___l          r",
-    "l          r___l          r___cttttttd",
-    "l          r___l          r__l       r",
-    "l          r___l          r__l       r",
+    "l          r___l     vvvv r___cttttttd",
+    "l          r___l     vvvv r__l       r",
+    "l          r___l     vvvv r__l       r",
     "l          tttttt         r__l    3  r",
     "l                         r__l       r",
     "l                         r__l       r",
     "l                       cwb__awwd  cwb",
     "l          cwwwwwd      r|____|l   r",
-    "l          r___|l       r_____|l   r",
-    "l          r___|l       ttd___|l   r",
-    "l          r___|l         r___|l   r",
-    "l          r___|l         r___|l   r",
-    "l          r___|l         ttttttt  r",
-    "l          r___|l                  r",
+    "l  vvvvvv  r___|l       r_____|l   r",
+    "l  v    v  r___|l       ttd___|l   r",
+    "l  v    v  r___|l         r___|l   r",
+    "l  v    v  r___|l         r___|l   r",
+    "l  v    v  r___|l         ttttttt  r",
+    "l  vvvvvv  r___|l                  r",
     "l          r___|l                  r",
     "awwwwwwwwwwb___|awwwwwwwwwwwwwwwwwwb",
     ],
@@ -205,6 +205,13 @@ export const getLevels = (k:KaboomCtx)=>{
               'wall',
               k.body({isStatic:true})
           ],
+          'v': () => [
+            k.sprite('lava'),
+            k.pos(85,70),
+            k.area(),
+            k.body({isStatic: true}),
+            'lava'        
+          ],
           '0': () => [
               k.sprite('ladder_lvlTwo'),
               k.pos(60, 70),
@@ -241,15 +248,7 @@ export const getLevels = (k:KaboomCtx)=>{
             k.area(),
             'ladder_lvlSix'
         ],
-          'e': () => [
-          k.sprite('kid'),
-          k.pos(620,30),
-          k.scale(1.2),
-          k.area(),
-          k.body({isStatic:true}),
-          ],
       },
-    
     }
     return {levels, tilesForMap}
 }

@@ -112,6 +112,15 @@ k.loadSpriteAtlas('map/base_tileset.png', {
 
 })
 
+k.loadSprite('lava','objects/lava.png', {
+   sliceX:4,
+   sliceY:1,
+   anims:{
+      boil:{ from: 0, to: 3, loop: true}
+   }
+})
+
+
 k.loadSpriteAtlas('objects/Dungeon_Tileset.png', {
    'thorns': {
       'x': 160,
@@ -155,6 +164,22 @@ k.loadSpriteAtlas('objects/Objects.png', {
       'sliceY': 1,
       'width':64,
       'height':64,
+   },
+   'three': {
+      'x': 0,
+      'y': 224,
+      'width': 64,
+      'height': 80,
+      'sliceX': 1,
+      'sliceY': 1,
+   },
+   'kid': {
+      'x': 340,
+      'y': 460,
+      'sliceX': 1,
+      'sliceY': 1,
+      'width':32,
+      'height':32,
    }
 })
 }
