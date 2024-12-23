@@ -8,7 +8,7 @@ import kaboom from 'kaboom'
 import { getLevels } from './../lib/levels'
 import { getSprites } from './../sprites/sprites'
 import { getTiles } from './../objects/objects'
-import { effect } from 'vue';
+// import { effect } from 'vue';
 const props = defineProps(['isGameStarted'])
 
 const k = kaboom({ background: [0, 0, 0] })
@@ -203,16 +203,30 @@ function colorizeHealthBar(healthBar: any) {
     if (healthBar.width <= 100) {
         healthBar.use(k.color(250, 207, 3)); // Желтый цвет
     }
-    if (healthBar.width < 30) {
+    if (healthBar.width <= 40) {
         healthBar.use(k.color(200, 0, 0)); // Красный цвет
     }
 }
 
+// Функция для начала нового уровня
+function startNewLevel() {
+    // Восстановление здоровья из сохраненного состояния
+    curHealth = savedHealth;
+    if (curHealth < MAX_HEALTH) {
+        curHealth = Math.min(curHealth + 20, MAX_HEALTH); // Восстановить немного здоровья, если оно меньше максимума
+    }
+    Healthbar.set(curHealth); // Обновляем полоску здоровья
+
+    // Обновление цвета полоски здоровья
+    colorizeHealthBar(Healthbar);
+}
+
 // Пример использования
 healthBar() // Инициализация полоски здоровья
-
 // Когда кот получает урон
-takeDamage(20) // Уменьшаем здоровье на 20
+takeDamage(20)
+// Переход на следующий уровень
+startNewLevel()
     // ------------------------------------------------------------------------------------
     // --- УПРАВЛЕНИЕ ИГРОКОМ ---
 
@@ -279,7 +293,7 @@ takeDamage(20) // Уменьшаем здоровье на 20
             cat.play('idle')
         }
 
-    })
+    }) 
 
     // ------------------------------------------------------------------------------------
 
@@ -630,106 +644,115 @@ createBat(400,350)
 let cobraCount = 0; // Счётчик убитых кобр
 const MAX_COBRAS = 20; // Максимальное количество кобр
 
-function createCobra(x, y) {
-    const cobra = k.add([
-        k.sprite('cobra'),
-        k.pos(x, y), // Используем переданные координаты
-        k.scale(2.5),
-        k.body(),
-        k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
-        k.state('move', ['idle', 'attack', 'move']),
-        'cobra'
-    ])
 
-    cobra.play('idle')
-    const cobra_SPEED = 120
 
-    cobra.onStateEnter("idle", async () => {
-        await k.wait(0.5)
-        cobra.enterState("move")
-    })
-
-    cobra.onStateEnter("attack", async () => {
-        if (cat.exists()) {
-            // Логика атаки кота
-            cobra.play('attack')
-            takeDamage(20)
-            cat.color = k.RED
-            await k.wait(0.5)
-            cat.color = k.WHITE
-        }
-        await k.wait(0.5) // Ждем перед возвращением в состояние движения
-        cobra.enterState("move")
-    })
-
-    cobra.onStateEnter("move", async () => {
-        await k.wait(2) // Ждем 2 секунды прежде, чем продолжить
-        cobra.play('idle') // Переходим в состояние ожидания
-    })
-
-    cobra.onStateUpdate("move", async () => {
-        if (!cat.exists()) return
-        const dir = cat.pos.sub(cobra.pos).unit()
-        cobra.move(dir.scale(cobra_SPEED))
-
-        // Если кобра близко к коту, атакуем
-        const distanceToCat = cobra.pos.dist(cat.pos);
-        if (distanceToCat < 10) { // Радиус атаки
-            cobra.enterState("attack") // Переходим в состояние атаки
-        }
-    })
-
-    cat.onCollide('cobra', () => {
-        cat.hurt(20)
-    })
-
-    cobra.onCollide('bullet', () => {
-   const effect = k.add([
-            k.sprite('purpleEffect'),
-            k.pos(cobra.pos.x, cobra.pos.y + 20),
-            k.scale(2)
-        ]).play('explosion')
-        k.destroy(cobra)
-        k.shake(1)
+    function createCobra(x, y) {
+    
+            const cobra = k.add([
+                k.sprite('cobra'),
+                k.pos(x, y), // Используем переданные координаты
+                k.scale(2.5),
+                k.body(),
+                k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
+                k.state('move', ['idle', 'attack', 'move']),
+                'cobra'
+            ])
         
-        // Увеличиваем счётчик убитых кобр
-        cobraCount++
-        updateCobraCountMessage() // Обновляем сообщение о количестве убитых кобр
+            cobra.play('idle')
+            
+            const cobra_SPEED = 120
+            
+            if (props.isGameStarted) {
 
-        // Если количество убитых кобр меньше максимума, создаем новую кобру
-        if (cobraCount < MAX_COBRAS) {
-            createCobra(k.rand(600,450), k.rand(100,300))
-        } else {
-            showMessage("Ура, змеи побеждены! Продолжай двигаться дальше")
-            k.wait(3, () => {
-                k.destroyAll('showMessage')
+                cobra.onStateEnter("idle", async () => {
+                await k.wait(0.5)
+                cobra.enterState("move")
             })
-        }
-    })
+        
+            cobra.onStateEnter("attack", async () => {
+                if (cat.exists()) {
+                    // Логика атаки кота
+                    cobra.play('attack')
+                    takeDamage(20)
+                    cat.color = k.RED
+                    await k.wait(0.5)
+                    cat.color = k.WHITE
+                }
+                await k.wait(0.5) // Ждем перед возвращением в состояние движения
+                cobra.enterState("move")
+            })
+            
+            cobra.onStateEnter("move", async () => {
+                await k.wait(2) // Ждем 2 секунды прежде, чем продолжить
+                cobra.play('idle') // Переходим в состояние ожидания
+            })
+            
+            cobra.onStateUpdate("move", async () => {
+                if (!cat.exists()) return
+                const dir = cat.pos.sub(cobra.pos).unit()
+                cobra.move(dir.scale(cobra_SPEED))
+                
+                // Если кобра близко к коту, атакуем
+                const distanceToCat = cobra.pos.dist(cat.pos);
+                if (distanceToCat < 10) { // Радиус атаки
+                    cobra.enterState("attack") // Переходим в состояние атаки
+                }
+            })
+            
+            cat.onCollide('cobra', () => {
+                cat.hurt(20)
+            })
+            
 }
-        // Функция для отображения сообщения о числе убитых кобр
-        function showMessage(message) {
-    k.add([
-        k.text(message, { size: 32 }),
-        k.pos(k.width() / 2, 70),
-        k.anchor('center'),
-        'showMessage'
-    ])
-}
-
-function updateCobraCountMessage() {
-    k.destroyAll('cobraCountMessage') 
+            cobra.onCollide('bullet', () => {
+                const effect = k.add([
+                    k.sprite('purpleEffect'),
+                    k.pos(cobra.pos.x, cobra.pos.y + 20),
+                    k.scale(2)
+                ]).play('explosion')
+                k.destroy(cobra)
+                k.shake(1)
+                
+                // Увеличиваем счётчик убитых кобр
+                cobraCount++
+                updateCobraCountMessage() // Обновляем сообщение о количестве убитых кобр
+                
+                // Если количество убитых кобр меньше максимума, создаем новую кобру
+                if (cobraCount < MAX_COBRAS) {
+                    createCobra(k.rand(600,450), k.rand(100,300))
+                } else {
+                    showMessage("Ура, змеи побеждены! Продолжай двигаться дальше")
+                    k.wait(3, () => {
+                        k.destroyAll('showMessage')
+                    })
+                }
+            })
+        }        
+            // Функция для отображения сообщения о числе убитых кобр
+            function showMessage(message: any) {
         k.add([
-        k.text(`Убей 20 змей. Убито: ${cobraCount}`, { size: 32 }),
-        k.pos(k.width() / 2, 70),
-        k.anchor('center'),
-        'cobraCountMessage' 
-    ])
-if(cobraCount === MAX_COBRAS) {
-    k.destroyAll('cobraCountMessage')
-}
-} 
-createCobra(k.rand(200,250), k.rand(100,250))
+            k.text(message, { size: 32 }),
+            k.pos(k.width() / 2, 70),
+            k.anchor('center'),
+            'showMessage'
+        ])
+       
+    }
+    
+    function updateCobraCountMessage() {
+        k.destroyAll('cobraCountMessage') 
+            k.add([
+            k.text(`Убей 20 змей. Убито: ${cobraCount}`, { size: 32 }),
+            k.pos(k.width() / 2, 70),
+            k.anchor('center'),
+            'cobraCountMessage' 
+        ])
+    if(cobraCount === MAX_COBRAS) {
+        k.destroyAll('cobraCountMessage')
+    }
+    } 
+        createCobra(k.rand(200,250), k.rand(100,250))
+
 // добавить кобре эффект спавна
 
 const children = k.add([
@@ -838,7 +861,8 @@ createBat()
                 k.go("game", { levelIndex: levelIndex })
             }
         })
-        healthBar()    
+        healthBar()   
+        startNewLevel() 
         //ДОБАВИТЬ СЮДА ДЕРЕВО С ВОДОЙ
 
         const three = k.add([
