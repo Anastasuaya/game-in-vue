@@ -156,6 +156,20 @@ k.loadSpriteAtlas('objects/Dungeon_Collectables.png', {
    }
 })
 
+// k.loadSpriteAtlas('objects/Dungeon_Tileset.png', {
+//    'thorns': {
+//       'x': 160,
+//       'y':480,
+//       'width':32,
+//       'height':37,
+//       'sliceX': 1,
+//       'sliceY': 1,
+//       anims: {
+//          movement: {from: 5 , to: 3, speed: 3, loop: true},
+//       }, 
+//    }
+// })
+
 k.loadSpriteAtlas('objects/Objects.png', {
    'children': {
       'x': 200,

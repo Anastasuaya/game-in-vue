@@ -13,15 +13,16 @@ const props = defineProps(['isGameStarted'])
 
 const k = kaboom({ background: [0, 0, 0] })
 const { levels, tilesForMap } = getLevels(k)
-console.log(tilesForMap)
+// console.log(tilesForMap)
 getSprites(k)
 getTiles(k)
 
 k.loadFont('agat', 'UI/agat-8.ttf')
 
+
 // --- SCENE ---
 k.scene("game", ({ levelIndex }) => {
-    const lvl = k.addLevel(levels[levelIndex], tilesForMap)
+ k.addLevel(levels[levelIndex], tilesForMap)
     
     // --- paused menu ---
     // const game = k.add([
@@ -67,7 +68,8 @@ k.scene("game", ({ levelIndex }) => {
     // --- cat ---
     const cat_HEALTH = 200;
     let curHealth = cat_HEALTH
-    let Healthbar 
+    let Healthbar: any
+
 
     let cat = k.add([
         k.sprite('cat'),
@@ -155,7 +157,7 @@ k.onCollide("wall-Bottom", "bullet", (bullet) => {
     // ------------------------------------------------------------------------------------
 
 // --- ПОЛОСА ЗДОРОВЬЯ ---
-
+let gameOver = false;
  function healthBar() {
     Healthbar = cat.add([
         k.rect(30, 3),
@@ -193,6 +195,11 @@ function takeDamage(amount: any) {
         curHealth = 0; // Не допускаем отрицательного здоровья
     }
     Healthbar.set(curHealth); // Обновляем полоску здоровья
+
+    if (curHealth === 0 && !gameOver) {
+        gameOver = true; // Устанавливаем состояние игры как завершённое
+        endGame(); // Вызываем функцию завершения игры
+    }
 }
 
 // Функция для изменения цвета полоски здоровья
@@ -209,18 +216,74 @@ function colorizeHealthBar(healthBar: any) {
 }
 
 // Функция для начала нового уровня
-function startNewLevel() {
-    // Восстановление здоровья из сохраненного состояния
-    curHealth = savedHealth;
-    if (curHealth < MAX_HEALTH) {
-        curHealth = Math.min(curHealth + 20, MAX_HEALTH); // Восстановить немного здоровья, если оно меньше максимума
-    }
-    Healthbar.set(curHealth); // Обновляем полоску здоровья
-
-    // Обновление цвета полоски здоровья
-    colorizeHealthBar(Healthbar);
+function updateHealthBar() {
+    Healthbar.set(curHealth) // Устанавливаем текущее здоровье на полоске
+    colorizeHealthBar(Healthbar) // Обновляем цвет полоски здоровья
 }
 
+// Функция для начала нового уровня
+function startNewLevel() {
+    // Текущее здоровье остается без изменений
+    updateHealthBar() // Обновляем полоску здоровья для нового уровня
+}
+
+// Функция завершения игры
+function endGame() {
+
+    const blackBackground = k.add([
+        k.rect(k.width(), k.height()),
+        k.pos(0, 0),
+        k.color(0, 0, 0),
+        k.z(0), // Устанавливаем нижний уровень рисования
+        'gameOverBackground',
+    ]);
+    // Отображаем сообщение об окончании игры
+    k.add([
+        k.text('Игра окончена!', { size: 48 }),
+        k.pos(k.width() / 2, k.height() / 2 - 50),
+        k.anchor('center'),
+        k.z(1)
+    ]);
+
+    // Кнопка "Начать заново"
+    const restartButton = k.add([
+        k.rect(400, 50),
+        k.pos(k.width() / 2 - 100, k.height() / 2 + 20),
+        k.color(0, 0, 0), // Зеленый цвет кнопки
+        k.anchor('center'),
+        'restartButton',
+        k.z(1)
+    ]);
+
+    k.add([
+        k.text('Начать заново', { size: 24 }),
+        k.pos(k.width() / 2, k.height() / 2 + 20),
+        k.anchor('center'),
+        k.z(1)
+    ]);
+
+    // Обработка нажатия на кнопку перезапуска
+    restartButton.onKeyPress('space',() => {
+        restartGame(); // Вызываем функцию обязательного перезапуска
+        k.destroyAll('restartButton'); 
+        k.destroyAll('showMessage');
+    });
+    restartButton.onMousePress(() => {
+        restartGame(); // Вызываем функцию обязательного перезапуска
+    });
+}
+
+// Функция для начала нового уровня или перезапуска игры
+function restartGame() {
+    curHealth = cat_HEALTH; // Обновляем здоровье кота
+    gameOver = false; // Сбрасываем состояние игры
+    updateHealthBar(); // Обновляем полоску здоровья
+
+    // Если у вас есть логика для перезапуска уровня, добавьте её здесь
+
+    // Удаляем сообщение об окончании игры и кнопку
+ // Предположим, что вы имеете другой соощение о завершении игры
+}
 // Пример использования
 healthBar() // Инициализация полоски здоровья
 // Когда кот получает урон
@@ -438,7 +501,7 @@ startNewLevel()
     })
 
     // ------------------------------------------------------------------------------------
-    function createBat(x,y){
+    function createBat(x: any,y: any){
         const bat = k.add([
             k.sprite('bat'),
             k.pos(x,y),
@@ -644,9 +707,7 @@ createBat(400,350)
 let cobraCount = 0; // Счётчик убитых кобр
 const MAX_COBRAS = 20; // Максимальное количество кобр
 
-
-
-    function createCobra(x, y) {
+    function createCobra(x: any, y: any) {
     
             const cobra = k.add([
                 k.sprite('cobra'),
@@ -762,7 +823,7 @@ const children = k.add([
     k.area(),
 ])
 
-createBat()
+// createBat()
 
 }
 
@@ -777,6 +838,7 @@ createBat()
             }
         })
         healthBar()
+        startNewLevel()
         // --- FOX ---
         const fox = k.add([
             k.sprite('fox'),
@@ -808,37 +870,26 @@ createBat()
         })
 
         // АНИМИРОВАТЬ ШИПЫ
-        const thorns = k.add([
-            k.sprite('thorns'),
-            // k.rect(118, 32), 
-            k.pos(480, 550),
-            // k.body({isStatic: true}),
-            k.area(),
-            'thorns'
-        ])
-        // thorns.play('movement')
-        
-        k.add([
-            k.sprite('thorns1'),
-            // k.rect(118, 32), 
-            k.pos(450, 550),
-            // k.body({isStatic: true}),
-            k.area(),
-            'thorns'
-        ])
-        k.add([
-            k.sprite('thorns2'),
-            // k.rect(118, 32), 
-            k.pos(420, 550),
-            // k.body({isStatic: true}),
-            k.area(),
-            'thorns'
-        ])
+        // function createThorns(){
 
+            // const thorns = k.add([
+            //     k.sprite('thorns'),
+            //     // k.rect(118, 32), 
+            //     k.pos(480, 550),
+            //     // k.body({isStatic: true}),
+            //     k.area(),
+            //     'thorns'
+            // ])
+            // thorns.play('movement')
+        // }
+        
+      
     const PotionHP = k.add([
             k.sprite('healthPotion'),
             k.pos(650,150),
-            k.scale(2)
+            k.scale(2),
+            k.area(),
+            'PotionnHP'
         ])
 
         
@@ -848,6 +899,21 @@ createBat()
         k.scale(2)
     ])
     orange.play('explosion')
+
+    function pickPotion() {
+    if (curHealth < cat_HEALTH) {
+        curHealth = cat_HEALTH; // Увеличиваем здоровье до максимума
+        updateHealthBar() // Обновляем полоску здоровья
+        // PotionHP.destroy()
+        // orange.destroy() // Удаляем зелье после подбора
+    }
+}
+
+cat.onCollide('PoitionHp', () => {
+    pickPotion()
+    PotionHP.destroy()
+    orange.destroy()
+})
     }
 
 
@@ -876,15 +942,49 @@ createBat()
             CreateDialog()
         })
 
+        // const elemental = k.add([
+        //     k.sprite('Fire_Elemental'),
+        //     k.pos(700,400),
+        //     k.area(),
+        //     k.body(),
+        //     k.scale(2),
+        //     'Fire_Elemental'
+        // ])
+        // elemental.play('idle')
+
+        const NUM_ELEMENTALS = 5; // Количество элементалей, которые следует заспавнить.
+const MOVE_SPEED = 50; // Скорость движения элементалей.
+
+function spawnElementals() {
+    for (let i = 0; i < NUM_ELEMENTALS; i++) {
         const elemental = k.add([
             k.sprite('Fire_Elemental'),
-            k.pos(700,400),
+            k.pos(Math.random() * k.width(), Math.random() * k.height()), // Случайная позиция по карте.
             k.area(),
             k.body(),
             k.scale(2),
             'Fire_Elemental'
-        ])
-        elemental.play('idle')
+        ]);
+
+        elemental.play('idle');
+
+        // Добавляем обработчик движения
+        elemental.onUpdate(() => {
+            const direction = Math.random() * 2 * Math.PI; // Случайное направление (радианы)
+            const velocity = k.vec2.fromAngle(direction).scale(MOVE_SPEED * k.dt());
+            elemental.move(velocity); // Двигаемся в случайном направлении
+
+            // Проверка выхода за границы карты
+            if (elemental.pos.x < 0 || elemental.pos.x > k.width() || elemental.pos.y < 0 || elemental.pos.y > k.height()) {
+                elemental.pos.x = Math.random() * k.width(); // Случайная новая позиция
+                elemental.pos.y = Math.random() * k.height();
+            }
+        });
+    }
+}
+
+// Пример вызова функции для спавна элементалей
+spawnElementals();
 
     const kid = k.add([
     k.sprite('kid'),
@@ -909,113 +1009,123 @@ createBat()
         })
         healthBar()
         
-        // скопировать змей
-        let cobraCount = 0; // Счётчик убитых кобр
+// --- COBRA ---
+let cobraCount = 0; // Счётчик убитых кобр
 const MAX_COBRAS = 20; // Максимальное количество кобр
 
-function createCobra(x, y) {
-    const cobra = k.add([
-        k.sprite('cobra'),
-        k.pos(x, y), // Используем переданные координаты
-        k.scale(2.5),
-        k.body(),
-        k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
-        k.state('move', ['idle', 'attack', 'move']),
-        'cobra'
-    ])
-
-    cobra.play('idle')
-    const cobra_SPEED = 120
-
-    cobra.onStateEnter("idle", async () => {
-        await k.wait(0.5)
-        cobra.enterState("move")
-    })
-
-    cobra.onStateEnter("attack", async () => {
-        if (cat.exists()) {
-            // Логика атаки кота
-            cobra.play('attack')
-            cat.color = k.RED
-            await k.wait(0.5)
-            cat.color = k.WHITE
-        }
-        await k.wait(0.5) // Ждем перед возвращением в состояние движения
-        cobra.enterState("move")
-    })
-
-    cobra.onStateEnter("move", async () => {
-        await k.wait(2) // Ждем 2 секунды прежде, чем продолжить
-        cobra.play('idle') // Переходим в состояние ожидания
-    })
-
-    cobra.onStateUpdate("move", async () => {
-        if (!cat.exists()) return
-        const dir = cat.pos.sub(cobra.pos).unit()
-        cobra.move(dir.scale(cobra_SPEED))
-
-        // Если кобра близко к коту, атакуем
-        const distanceToCat = cobra.pos.dist(cat.pos);
-        if (distanceToCat < 10) { // Радиус атаки
-            cobra.enterState("attack") // Переходим в состояние атаки
-        }
-    })
-
-    cat.onCollide('cobra', () => {
-        cat.hurt(20)
-    })
-
-    cobra.onCollide('bullet', () => {
-   const effect = k.add([
-            k.sprite('purpleEffect'),
-            k.pos(cobra.pos.x, cobra.pos.y + 20),
-            k.scale(2)
-        ]).play('explosion')
-        k.destroy(cobra)
-        k.shake(1)
+    function createCobra(x: any, y: any) {
+    
+            const cobra = k.add([
+                k.sprite('cobra'),
+                k.pos(x, y), // Используем переданные координаты
+                k.scale(2.5),
+                k.body(),
+                k.area({ shape: new k.Rect(k.vec2(5, 20), 15, 10) }),
+                k.state('move', ['idle', 'attack', 'move']),
+                'cobra'
+            ])
         
-        // Увеличиваем счётчик убитых кобр
-        cobraCount++
-        updateCobraCountMessage() // Обновляем сообщение о количестве убитых кобр
+            cobra.play('idle')
+            
+            const cobra_SPEED = 120
+            
+            if (props.isGameStarted) {
 
-        // Если количество убитых кобр меньше максимума, создаем новую кобру
-        if (cobraCount < MAX_COBRAS) {
-            createCobra(k.rand(1000,550), k.rand(1000,550))
-        } else {
-            showMessage("Ура, змеи побеждены! Продолжай двигаться дальше")
-            k.wait(3, () => {
-                k.destroyAll('showMessage')
+                cobra.onStateEnter("idle", async () => {
+                await k.wait(0.5)
+                cobra.enterState("move")
             })
-        }
-    })
-}
-        // Функция для отображения сообщения о числе убитых кобр
-        function showMessage(message) {
-    k.add([
-        k.text(message, { size: 32 }),
-        k.pos(k.width() / 2, 70),
-        k.anchor('center'),
-        'showMessage'
-    ])
-}
+        
+            cobra.onStateEnter("attack", async () => {
+                if (cat.exists()) {
+                    // Логика атаки кота
+                    cobra.play('attack')
+                    takeDamage(20)
+                    cat.color = k.RED
+                    await k.wait(0.5)
+                    cat.color = k.WHITE
+                }
+                await k.wait(0.5) // Ждем перед возвращением в состояние движения
+                cobra.enterState("move")
+            })
+            
+            cobra.onStateEnter("move", async () => {
+                await k.wait(2) // Ждем 2 секунды прежде, чем продолжить
+                cobra.play('idle') // Переходим в состояние ожидания
+            })
+            
+            cobra.onStateUpdate("move", async () => {
+                if (!cat.exists()) return
+                const dir = cat.pos.sub(cobra.pos).unit()
+                cobra.move(dir.scale(cobra_SPEED))
+                
+                if (dir.x < 0) {
+                cobra.flipX = true; // Двигается влево
+            } else {
+                cobra.flipX = false; // Двигается вправо
+            }
 
-function updateCobraCountMessage() {
-    k.destroyAll('cobraCountMessage') 
+                // Если кобра близко к коту, атакуем
+                const distanceToCat = cobra.pos.dist(cat.pos);
+                if (distanceToCat < 10) { // Радиус атаки
+                    cobra.enterState("attack") // Переходим в состояние атаки
+                }
+            })
+            
+            cat.onCollide('cobra', () => {
+                cat.hurt(20)
+            })
+            
+}
+            cobra.onCollide('bullet', () => {
+                const effect = k.add([
+                    k.sprite('purpleEffect'),
+                    k.pos(cobra.pos.x, cobra.pos.y + 20),
+                    k.scale(2)
+                ]).play('explosion')
+                k.destroy(cobra)
+                k.shake(1)
+                
+                // Увеличиваем счётчик убитых кобр
+                cobraCount++
+                updateCobraCountMessage() // Обновляем сообщение о количестве убитых кобр
+                
+                // Если количество убитых кобр меньше максимума, создаем новую кобру
+                if (cobraCount < MAX_COBRAS) {
+                    createCobra(k.rand(600,450), k.rand(100,300))
+                } else {
+                    showMessage("Ура, змеи побеждены! Продолжай двигаться дальше")
+                    k.wait(3, () => {
+                        k.destroyAll('showMessage')
+                    })
+                }
+            })
+        }        
+            // Функция для отображения сообщения о числе убитых кобр
+            function showMessage(message: any) {
         k.add([
-        k.text(`Убей 20 змей. Убито: ${cobraCount}`, { size: 32 }),
-        k.pos(k.width() / 2, 70),
-        k.anchor('center'),
-        'cobraCountMessage' 
-    ])
-if(cobraCount === MAX_COBRAS) {
-    k.destroyAll('cobraCountMessage')
-}
-} 
-createCobra(k.rand(600,550), k.rand(600,550))
+            k.text(message, { size: 32 }),
+            k.pos(k.width() / 2, 70),
+            k.anchor('center'),
+            'showMessage'
+        ])
+       
+    }
+    
+    function updateCobraCountMessage() {
+        k.destroyAll('cobraCountMessage') 
+            k.add([
+            k.text(`Убей 20 змей. Убито: ${cobraCount}`, { size: 32 }),
+            k.pos(k.width() / 2, 70),
+            k.anchor('center'),
+            'cobraCountMessage' 
+        ])
+    if(cobraCount === MAX_COBRAS) {
+        k.destroyAll('cobraCountMessage')
+    }
+    } 
+        createCobra(k.rand(200,250), k.rand(100,250))
 
-        // добавить:
-        // - нпс
-        // - зелье/куриную ногу длявосстановления хп
     }
 
     // ------------------------------------------------------------------------------------
@@ -1038,7 +1148,7 @@ createCobra(k.rand(600,550), k.rand(600,550))
 
 function start() {
     k.go("game", {
-        levelIndex: 1,
+        levelIndex: 3,
         score: 0,
         lives: 3,
     })
