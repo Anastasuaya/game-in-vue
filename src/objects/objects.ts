@@ -109,8 +109,48 @@ k.loadSpriteAtlas('map/base_tileset.png', {
       'width': 125,
       'height': 32, 
   },
-
+  'obstacle1': {
+   'x': 160,
+   'y': 240,
+   'width': 90,
+   'height': 32, 
+},
 })
+k.loadSpriteAtlas('map/Ground.png', {
+'ground': {
+   'x': 60,
+   'y': 100,
+   'width': 32,
+   'height': 32, 
+},
+'ground_bot': {
+   'x': 60,
+   'y': 110,
+   'width': 32,
+   'height': 32, 
+},
+'wall_ground': {
+   'x': 128,
+   'y': 95,
+   'width': 32,
+   'height': 32, 
+},
+})
+k.loadSpriteAtlas('map/Grass.png', {
+   'grass': {
+      'x': 60,
+      'y': 90,
+      'width': 32,
+      'height': 32, 
+   },
+   'cobble': {
+      'x': 80,
+      'y': 150,
+      'width': 32,
+      'height': 32, 
+   }
+   })
+   
 
 k.loadSprite('lava','objects/lava.png', {
    sliceX:4,
@@ -195,5 +235,20 @@ k.loadSpriteAtlas('objects/Objects.png', {
       'width':32,
       'height':32,
    }
+})
+
+k.loadSpriteAtlas('map/Props.png', {
+   'statue': {
+      'x': 445,
+      'y': 20,
+      'width':64,
+      'height':75,
+   },
+   'coffin': {
+      'x': 210,
+      'y': 240,
+      'width':64,
+      'height':40,
+   },
 })
 }

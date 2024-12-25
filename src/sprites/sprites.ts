@@ -96,4 +96,15 @@ k.loadSprite('orangeEffect', 'sprites/Effect_orange.png', {
   }
 })
 
+// --- BOSS ---
+k.loadSprite('boss', 'sprites/Shardsoul.png', {
+  sliceX: 8,
+  sliceY: 5,
+  anims: {
+    idle: {from: 0, to: 7, loop: true},
+    attack: {from: 16, to: 23, loop: false},
+    walk: {from: 8, to: 15, loop: true},
+    die: {from: 32, to: 40, loop: true},
+  }
+})
 }
