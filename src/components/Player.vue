@@ -941,50 +941,43 @@ cat.onCollide('PoitionHp', () => {
         cat.onCollide('lava', () => {
             CreateDialog()
         })
-
-        // const elemental = k.add([
-        //     k.sprite('Fire_Elemental'),
-        //     k.pos(700,400),
-        //     k.area(),
-        //     k.body(),
-        //     k.scale(2),
-        //     'Fire_Elemental'
-        // ])
-        // elemental.play('idle')
-
-        const NUM_ELEMENTALS = 5; // Количество элементалей, которые следует заспавнить.
-const MOVE_SPEED = 50; // Скорость движения элементалей.
-
-function spawnElementals() {
-    for (let i = 0; i < NUM_ELEMENTALS; i++) {
+        function createElemental(x: any,y: any){
         const elemental = k.add([
             k.sprite('Fire_Elemental'),
-            k.pos(Math.random() * k.width(), Math.random() * k.height()), // Случайная позиция по карте.
+            k.pos(700,400),
             k.area(),
             k.body(),
             k.scale(2),
             'Fire_Elemental'
-        ]);
+        ])
+        elemental.play('walk')
 
-        elemental.play('idle');
+        let speed = 100
+        let direction = 1
+        let yDirection = 1
 
-        // Добавляем обработчик движения
-        elemental.onUpdate(() => {
-            const direction = Math.random() * 2 * Math.PI; // Случайное направление (радианы)
-            const velocity = k.vec2.fromAngle(direction).scale(MOVE_SPEED * k.dt());
-            elemental.move(velocity); // Двигаемся в случайном направлении
-
-            // Проверка выхода за границы карты
-            if (elemental.pos.x < 0 || elemental.pos.x > k.width() || elemental.pos.y < 0 || elemental.pos.y > k.height()) {
-                elemental.pos.x = Math.random() * k.width(); // Случайная новая позиция
-                elemental.pos.y = Math.random() * k.height();
+        k.onUpdate(() => {
+            if (props.isGameStarted) {
+                elemental.pos.x += speed * direction * k.dt()
+                elemental.pos.y += speed * yDirection * k.dt()
+                if (elemental.pos.x > 500) {
+                    direction = -1
+                    elemental.flipX = true
+                } else if (elemental.pos.x < 200) {
+                    direction = 1
+                    elemental.flipX = false
+                }
+                if (elemental.pos.y > 300) {
+                    yDirection = -1
+                    elemental.flipX = true
+                } else if (elemental.pos.y < 250) {
+                    yDirection = 1
+                    elemental.flipX = false
+                }
             }
-        });
+        })
     }
-}
-
-// Пример вызова функции для спавна элементалей
-spawnElementals();
+    createElemental(300,400)
 
     const kid = k.add([
     k.sprite('kid'),
