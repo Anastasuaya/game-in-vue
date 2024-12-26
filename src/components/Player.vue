@@ -1089,7 +1089,7 @@ k.scene("game", ({ levelIndex }) => {
 
 function start() {
     k.go("game", {
-        levelIndex: 5,
+        levelIndex: 0,
         score: 0,
         lives: 3,
     })
