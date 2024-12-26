@@ -70,7 +70,7 @@ export const getSprites = (k:KaboomCtx)=> {
   })
 
   // --- ELEMENTAL' ---
-  k.loadSprite('Fire_Elemental', 'sprites/Fire_Elemental.png', {
+  k.loadSprite('fireElemental', 'sprites/Fire_Elemental.png', {
     sliceX: 8,
     sliceY: 5,
     anims: {
@@ -78,6 +78,20 @@ export const getSprites = (k:KaboomCtx)=> {
       idle: {from: 16, to: 23, loop: true}
     }
   })
+
+// --- SPIDER --- 
+k.loadSprite('spider', 'sprites/Spider.png', {
+  sliceX: 9,
+  sliceY: 16,
+  anims: {
+    idle: { from: 0, to: 4, loop: true},
+    walk: {from: 9, to: 17, loop: true},
+    jump: {from: 18, to: 26, loop: true},
+    cr: {from: 54, to: 57, loop: false},
+    die: {from: 57, to: 62, loop: true},
+    cobweb: {from: 63, to: 68, loop: false}
+  } 
+})
 
 // --- EXPLOSION ---
 k.loadSprite('purpleEffect', 'sprites/Effect_purple.png', {
